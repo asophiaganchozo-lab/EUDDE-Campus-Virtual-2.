@@ -1,48 +1,114 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EUDDE_Campus Virtual</title>
+    <title>EUDDE | Campus Virtual</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-    <h1>EUDDE</h1>
-    <p>Campus Virtual</p>
+<header class="encabezado">
+    <div class="logo">
+        <h1>EUDDE</h1>
+        <p>CAMPUS VIRTUAL</p>
+    </div>
+
     <nav>
         <a href="#inicio">Inicio</a>
         <a href="#asignaturas">Asignaturas</a>
-        <a href="#nosotros">Acerca de</a>
+        <a href="#progreso">Mi progreso</a>
+        <a href="#diplomas">Diplomas</a>
     </nav>
 </header>
 
-<section id="inicio" class="bienvenida">
-    <h2>¡Bienvenido a EUDDE_Campus Virtual!</h2>
-    <p>Aprende, desarrolla tus habilidades y avanza hacia tu futuro.</p>
-    <button onclick="mostrarAsignaturas()">Explorar asignaturas</button>
-</section>
+<main>
 
-<section id="asignaturas">
-    <h2>Nuestras 15 asignaturas</h2>
-    <div id="listaAsignaturas"></div>
-</section>
+    <section id="inicio" class="bienvenida">
+        <div>
+            <p class="etiqueta">ENTORNO VIRTUAL DE APRENDIZAJE</p>
+            <h2>¡Bienvenido a tu espacio de aprendizaje!</h2>
+            <p>
+                Aprende, practica, resuelve actividades y demuestra
+                tus conocimientos con EUDDE Campus Virtual.
+            </p>
+            <button onclick="irAAsignaturas()">
+                Explorar mis asignaturas
+            </button>
+        </div>
+    </section>
 
-<section id="nosotros">
-    <h2>Sobre nuestra plataforma</h2>
-    <p>
-        EUDDE_Campus Virtual es un entorno virtual de aprendizaje
-        diseñado para facilitar la educación mediante módulos,
-        videos, actividades y evaluaciones.
-    </p>
-</section>
+    <section class="resumen">
+        <div class="dato">
+            <h3 id="totalAsignaturas">15</h3>
+            <p>Asignaturas</p>
+        </div>
+
+        <div class="dato">
+            <h3 id="totalModulos">75</h3>
+            <p>Módulos</p>
+        </div>
+
+        <div class="dato">
+            <h3 id="modulosCompletados">0</h3>
+            <p>Módulos completados</p>
+        </div>
+
+        <div class="dato">
+            <h3 id="promedioGeneral">0.00</h3>
+            <p>Promedio general</p>
+        </div>
+    </section>
+
+    <section id="asignaturas" class="seccion">
+        <h2>Mis asignaturas</h2>
+        <p class="descripcion">
+            Selecciona una materia para ingresar a tu aula virtual.
+        </p>
+
+        <div id="listaAsignaturas" class="lista-asignaturas"></div>
+    </section>
+
+    <section id="aula" class="seccion aula">
+        <div id="contenidoAula">
+            <h2>Mi aula virtual</h2>
+            <p>
+                Selecciona una asignatura para comenzar tus clases,
+                actividades y evaluaciones.
+            </p>
+        </div>
+    </section>
+
+    <section id="progreso" class="seccion">
+        <h2>Mi progreso académico</h2>
+        <p class="descripcion">
+            Consulta tus calificaciones y el avance de tus materias.
+        </p>
+
+        <div id="tablaNotas"></div>
+    </section>
+
+    <section id="diplomas" class="seccion">
+        <h2>Mis diplomas</h2>
+        <p class="descripcion">
+            Aquí podrás consultar y descargar tus diplomas
+            cuando cumplas los requisitos de finalización.
+        </p>
+
+        <div id="listaDiplomas"></div>
+    </section>
+
+</main>
 
 <footer>
-    <p>© 2026 EUDDE_Campus Virtual</p>
-    <p>Entorno Virtual de Aprendizaje</p>
+    <h3>EUDDE CAMPUS VIRTUAL</h3>
+    <p>Aprender, practicar y alcanzar nuevas metas.</p>
+    <p>© 2026 EUDDE. Entorno Virtual de Aprendizaje.</p>
 </footer>
 
 <script src="app.js"></script>
+
 </body>
 </html>
