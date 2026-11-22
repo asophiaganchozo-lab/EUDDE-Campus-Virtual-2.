@@ -2,113 +2,199 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EUDDE | Campus Virtual</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="EUDDE Campus Virtual - Entorno Virtual de Aprendizaje">
+  <title>EUDDE | Campus Virtual</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
 </head>
 
 <body>
-
-<header class="encabezado">
+  <header class="encabezado">
     <div class="logo">
+      <div class="logo-icono">E</div>
+      <div>
         <h1>EUDDE</h1>
-        <p>CAMPUS VIRTUAL</p>
+        <p>Campus Virtual</p>
+      </div>
     </div>
 
-    <nav>
-        <a href="#inicio">Inicio</a>
-        <a href="#asignaturas">Asignaturas</a>
-        <a href="#progreso">Mi progreso</a>
-        <a href="#diplomas">Diplomas</a>
+    <nav class="navegacion">
+      <a href="#inicio">Inicio</a>
+      <a href="#asignaturas">Asignaturas</a>
+      <a href="#notas">Calificaciones</a>
+      <a href="#diplomas">Certificados</a>
+      <a href="#ayuda">Ayuda</a>
     </nav>
-</header>
+  </header>
 
-<main>
-
-    <section id="inicio" class="bienvenida">
-        <div>
-            <p class="etiqueta">ENTORNO VIRTUAL DE APRENDIZAJE</p>
-            <h2>¡Bienvenido a tu espacio de aprendizaje!</h2>
-            <p>
-                Aprende, practica, resuelve actividades y demuestra
-                tus conocimientos con EUDDE Campus Virtual.
-            </p>
-            <button onclick="irAAsignaturas()">
-                Explorar mis asignaturas
-            </button>
-        </div>
+  <main>
+    <section class="bienvenida" id="inicio">
+      <div>
+        <span class="etiqueta">ENTORNO VIRTUAL DE APRENDIZAJE</span>
+        <h2>¡Bienvenido a tu Campus Virtual!</h2>
+        <p>
+          Aprende, desarrolla tus habilidades y avanza en cada módulo
+          de tu formación académica.
+        </p>
+        <button type="button" onclick="irAAsignaturas()">
+          Explorar asignaturas
+        </button>
+      </div>
     </section>
 
-    <section class="resumen">
-        <div class="dato">
-            <h3 id="totalAsignaturas">15</h3>
-            <p>Asignaturas</p>
-        </div>
+    <section class="resumen" aria-label="Resumen académico">
+      <article class="dato">
+        <span>Asignaturas</span>
+        <strong id="totalAsignaturas">0</strong>
+      </article>
 
-        <div class="dato">
-            <h3 id="totalModulos">75</h3>
-            <p>Módulos</p>
-        </div>
+      <article class="dato">
+        <span>Total de módulos</span>
+        <strong id="totalModulos">0</strong>
+      </article>
 
-        <div class="dato">
-            <h3 id="modulosCompletados">0</h3>
-            <p>Módulos completados</p>
-        </div>
+      <article class="dato">
+        <span>Módulos completados</span>
+        <strong id="modulosCompletados">0</strong>
+      </article>
 
-        <div class="dato">
-            <h3 id="promedioGeneral">0.00</h3>
-            <p>Promedio general</p>
-        </div>
+      <article class="dato">
+        <span>Promedio general</span>
+        <strong id="promedioGeneral">0.00</strong>
+      </article>
     </section>
 
-    <section id="asignaturas" class="seccion">
+    <section class="seccion" id="asignaturas">
+      <div class="titulo-seccion">
+        <span>MI FORMACIÓN</span>
         <h2>Mis asignaturas</h2>
-        <p class="descripcion">
-            Selecciona una materia para ingresar a tu aula virtual.
-        </p>
+        <p>Selecciona tu curso y especialidad para consultar tus materias.</p>
+      </div>
 
-        <div id="listaAsignaturas" class="lista-asignaturas"></div>
+      <div id="selectoresCurso"></div>
+
+      <div class="lista-asignaturas" id="listaAsignaturas">
+        <p>Las asignaturas aparecerán aquí.</p>
+      </div>
     </section>
 
-    <section id="aula" class="seccion aula">
-        <div id="contenidoAula">
-            <h2>Mi aula virtual</h2>
-            <p>
-                Selecciona una asignatura para comenzar tus clases,
-                actividades y evaluaciones.
-            </p>
+    <section class="seccion aula" id="aula">
+      <div class="titulo-seccion">
+        <span>APRENDE A TU RITMO</span>
+        <h2>Aula virtual</h2>
+        <p>Consulta las clases, actividades y evaluaciones de cada módulo.</p>
+      </div>
+
+      <div id="contenidoAula">
+        <div class="mensaje-inicial">
+          <h3>Selecciona una asignatura</h3>
+          <p>
+            Aquí encontrarás el contenido educativo de cada materia,
+            organizado por módulos.
+          </p>
         </div>
+      </div>
     </section>
 
-    <section id="progreso" class="seccion">
-        <h2>Mi progreso académico</h2>
-        <p class="descripcion">
-            Consulta tus calificaciones y el avance de tus materias.
+    <section class="seccion" id="notas">
+      <div class="titulo-seccion">
+        <span>MI RENDIMIENTO</span>
+        <h2>Calificaciones</h2>
+        <p>Consulta tus resultados y el avance de tus evaluaciones.</p>
+      </div>
+
+      <div class="tabla-contenedor" id="tablaNotas">
+        <p>Tus calificaciones aparecerán aquí.</p>
+      </div>
+    </section>
+
+    <section class="seccion" id="examen-final">
+      <div class="titulo-seccion">
+        <span>COMPRUEBA LO APRENDIDO</span>
+        <h2>Exámenes finales</h2>
+        <p>
+          Al completar los módulos de una asignatura podrás prepararte
+          para realizar su evaluación final.
         </p>
+      </div>
 
-        <div id="tablaNotas"></div>
-    </section>
-
-    <section id="diplomas" class="seccion">
-        <h2>Mis diplomas</h2>
-        <p class="descripcion">
-            Aquí podrás consultar y descargar tus diplomas
-            cuando cumplas los requisitos de finalización.
+      <div class="tarjeta-informativa">
+        <h3>Evaluación final del curso</h3>
+        <p>
+          La evaluación final estará formada por 20 preguntas sobre
+          los temas estudiados. Su resultado se registrará en tu
+          historial académico cuando esta función esté habilitada.
         </p>
-
-        <div id="listaDiplomas"></div>
+      </div>
     </section>
 
-</main>
+    <section class="seccion" id="diplomas">
+      <div class="titulo-seccion">
+        <span>LOGROS ACADÉMICOS</span>
+        <h2>Mis certificados</h2>
+        <p>Consulta los certificados que hayas obtenido.</p>
+      </div>
 
-<footer>
-    <h3>EUDDE CAMPUS VIRTUAL</h3>
-    <p>Aprender, practicar y alcanzar nuevas metas.</p>
-    <p>© 2026 EUDDE. Entorno Virtual de Aprendizaje.</p>
-</footer>
+      <div id="listaDiplomas">
+        <p>Tus certificados aparecerán aquí cuando estén disponibles.</p>
+      </div>
+    </section>
 
-<script src="app.js"></script>
+    <section class="seccion" id="ayuda">
+      <div class="titulo-seccion">
+        <span>ESTAMOS PARA AYUDARTE</span>
+        <h2>Centro de ayuda</h2>
+        <p>Encuentra orientación para utilizar el campus virtual.</p>
+      </div>
 
+      <div class="ayuda-lista">
+        <details>
+          <summary>¿Cómo ingreso a mis asignaturas?</summary>
+          <p>
+            Selecciona tu curso y especialidad. Después elige la
+            asignatura que deseas estudiar.
+          </p>
+        </details>
+
+        <details>
+          <summary>¿Cómo reviso mis módulos?</summary>
+          <p>
+            Entra a una asignatura y selecciona el módulo para consultar
+            sus clases y actividades.
+          </p>
+        </details>
+
+        <details>
+          <summary>¿Dónde puedo consultar mis calificaciones?</summary>
+          <p>
+            Dirígete a la sección de calificaciones para revisar los
+            resultados que estén registrados.
+          </p>
+        </details>
+
+        <details>
+          <summary>¿Cómo obtengo un certificado?</summary>
+          <p>
+            Los certificados estarán disponibles cuando se habiliten
+            las evaluaciones y se cumplan los requisitos académicos.
+          </p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="logo">
+      <div class="logo-icono">E</div>
+      <div>
+        <h3>EUDDE Campus Virtual</h3>
+        <p>Educación, conocimiento y tecnología.</p>
+      </div>
+    </div>
+
+    <p>© 2026 EUDDE Campus Virtual. Todos los derechos reservados.</p>
+  </footer>
 </body>
 </html>
