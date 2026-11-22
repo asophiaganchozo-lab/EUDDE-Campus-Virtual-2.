@@ -1,270 +1,135 @@
 
-// ========================================
-// EUDDE CAMPUS VIRTUAL
-// REGISTRO E INICIO DE SESIÓN
-// ========================================
+/* =====================================
+   EUDDE CAMPUS VIRTUAL
+   ACCESO DIRECTO SIN INICIO DE SESIÓN
+===================================== */
 
-document.addEventListener("DOMContentLoaded", iniciarEUDDE);
+document.addEventListener("DOMContentLoaded", () => {
+  // Eliminar cualquier pantalla de inicio de sesión
+  const acceso = document.getElementById("accesoEUDDE");
+  if (acceso) acceso.remove();
 
-function iniciarEUDDE() {
-  const supabase = window.supabaseClient;
+  // Mostrar la plataforma directamente
+  document.body.style.visibility = "visible";
 
-  if (!supabase) {
-    alert("No se pudo conectar con Supabase. Revisa supabase.js.");
+  // Cursos disponibles
+  const cursos = {
+    "Décimo EGB": ["General"],
+    "1.º Bachillerato": ["Informática"],
+    "2.º Bachillerato": ["Informática", "Ciencias", "Contabilidad"],
+    "3.º Bachillerato": ["Informática", "Ciencias", "Contabilidad"]
+  };
+
+  const contenedor = document.getElementById("selectoresCurso");
+
+  if (!contenedor) {
+    console.error("No se encontró el contenedor selectoresCurso.");
     return;
   }
 
-  const elementosOriginales = [...document.body.children];
+  contenedor.innerHTML = `
+    <div class="selector-cursos">
+      <h2>Bienvenido a EUDDE Campus Virtual</h2>
+      <p>Selecciona tu curso para comenzar a aprender.</p>
 
-  const panel = document.createElement("section");
-  panel.id = "accesoEUDDE";
+      <label for="cursoEUDDE">Curso:</label>
+      <select id="cursoEUDDE">
+        <option value="">Selecciona tu curso</option>
+        ${Object.keys(cursos).map(curso =>
+          `<option value="${curso}">${curso}</option>`
+        ).join("")}
+      </select>
 
-  panel.innerHTML = `
-    <div style="
-      max-width:480px;
-      margin:40px auto;
-      padding:30px;
-      background:white;
-      border-radius:18px;
-      box-shadow:0 5px 25px #0002;
-      font-family:Arial,sans-serif;
-      color:#243447;
-    ">
-      <h1 style="text-align:center;color:#168ac0">
-        EUDDE Campus Virtual
-      </h1>
-
-      <p style="text-align:center">
-        Plataforma educativa
-      </p>
-
-      <div id="formularioRegistro" style="display:none">
-        <h2>Crear cuenta de estudiante</h2>
-
-        <input id="nombre" placeholder="Nombre completo" required
-          style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box">
-
-        <input id="correoRegistro" type="email"
-          placeholder="Correo electrónico" required
-          style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box">
-
-        <input id="claveRegistro" type="password"
-          placeholder="Contraseña (mínimo 8 caracteres)" required
-          style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box">
-
-        <select id="cursoRegistro"
-          style="width:100%;padding:12px;margin:7px 0">
-          <option value="">Selecciona tu curso</option>
-          <option value="Décimo EGB">Décimo EGB</option>
-          <option value="1.º Bachillerato">1.º Bachillerato</option>
-          <option value="2.º Bachillerato">2.º Bachillerato</option>
-          <option value="3.º Bachillerato">3.º Bachillerato</option>
-        </select>
-
-        <select id="especialidadRegistro"
-          style="width:100%;padding:12px;margin:7px 0">
-          <option value="">Selecciona especialidad</option>
-        </select>
-
-        <button id="crearCuenta"
-          style="width:100%;padding:13px;margin-top:12px;
-          background:#168ac0;color:white;border:0;border-radius:9px">
-          Registrarme
-        </button>
-
-        <p>¿Ya tienes cuenta?
-          <a href="#" id="irLogin">Iniciar sesión</a>
-        </p>
-      </div>
-
-      <div id="formularioLogin">
-        <h2>Iniciar sesión</h2>
-
-        <input id="correoLogin" type="email"
-          placeholder="Correo electrónico" required
-          style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box">
-
-        <input id="claveLogin" type="password"
-          placeholder="Contraseña" required
-          style="width:100%;padding:12px;margin:7px 0;box-sizing:border-box">
-
-        <button id="entrarCuenta"
-          style="width:100%;padding:13px;margin-top:12px;
-          background:#168ac0;color:white;border:0;border-radius:9px">
-          Entrar
-        </button>
-
-        <p>¿No tienes cuenta?
-          <a href="#" id="irRegistro">Registrarme</a>
-        </p>
-
-        <a href="#" id="recuperarClave">Olvidé mi contraseña</a>
-      </div>
-
-      <p id="mensajeAcceso" role="status"
-        style="margin-top:15px;text-align:center"></p>
+      <div id="especialidadContenedor"></div>
+      <button id="entrarCurso" disabled>Entrar al curso</button>
     </div>
   `;
 
-  document.body.prepend(panel);
+  const selectorCurso = document.getElementById("cursoEUDDE");
+  const especialidadContenedor =
+    document.getElementById("especialidadContenedor");
+  const botonEntrar = document.getElementById("entrarCurso");
 
-  function mostrarAplicacion(visible) {
-    elementosOriginales.forEach(elemento => {
-      elemento.style.display = visible ? "" : "none";
-    });
-    panel.style.display = visible ? "none" : "";
-  }
+  let cursoSeleccionado = "";
+  let especialidadSeleccionada = "";
 
-  function mensaje(texto, error = false) {
-    const zona = document.getElementById("mensajeAcceso");
-    zona.textContent = texto;
-    zona.style.color = error ? "#c0392b" : "#16834a";
-  }
+  selectorCurso.addEventListener("change", () => {
+    cursoSeleccionado = selectorCurso.value;
+    especialidadSeleccionada = "";
 
-  function actualizarEspecialidades() {
-    const curso = document.getElementById("cursoRegistro").value;
-    const selector = document.getElementById("especialidadRegistro");
+    especialidadContenedor.innerHTML = "";
 
-    let opciones = [];
-
-    if (curso === "Décimo EGB") {
-      opciones = ["General"];
-    } else if (curso === "1.º Bachillerato") {
-      opciones = ["Informática"];
-    } else if (curso === "2.º Bachillerato" ||
-               curso === "3.º Bachillerato") {
-      opciones = ["Informática", "Ciencias", "Contabilidad"];
+    if (!cursoSeleccionado) {
+      botonEntrar.disabled = true;
+      return;
     }
 
-    selector.innerHTML = '<option value="">Selecciona especialidad</option>';
+    const especialidades = cursos[cursoSeleccionado];
 
-    opciones.forEach(opcion => {
-      const option = document.createElement("option");
-      option.value = opcion;
-      option.textContent = opcion;
-      selector.appendChild(option);
-    });
-  }
+    if (especialidades.length > 1) {
+      especialidadContenedor.innerHTML = `
+        <label for="especialidadEUDDE">Especialidad:</label>
+        <select id="especialidadEUDDE">
+          <option value="">Selecciona tu especialidad</option>
+          ${especialidades.map(item =>
+            `<option value="${item}">${item}</option>`
+          ).join("")}
+        </select>
+      `;
 
-  document.getElementById("cursoRegistro")
-    .addEventListener("change", actualizarEspecialidades);
+      document.getElementById("especialidadEUDDE")
+        .addEventListener("change", (evento) => {
+          especialidadSeleccionada = evento.target.value;
+          botonEntrar.disabled = !especialidadSeleccionada;
+        });
 
-  document.getElementById("irRegistro").onclick = evento => {
-    evento.preventDefault();
-    document.getElementById("formularioLogin").style.display = "none";
-    document.getElementById("formularioRegistro").style.display = "block";
-    mensaje("");
-  };
-
-  document.getElementById("irLogin").onclick = evento => {
-    evento.preventDefault();
-    document.getElementById("formularioRegistro").style.display = "none";
-    document.getElementById("formularioLogin").style.display = "block";
-    mensaje("");
-  };
-
-  document.getElementById("crearCuenta").onclick = async () => {
-    const nombre = document.getElementById("nombre").value.trim();
-    const email = document.getElementById("correoRegistro").value.trim();
-    const password = document.getElementById("claveRegistro").value;
-    const curso = document.getElementById("cursoRegistro").value;
-    const especialidad = document.getElementById("especialidadRegistro").value;
-
-    if (!nombre || !email || !password || !curso || !especialidad) {
-      return mensaje("Completa todos los campos.", true);
-    }
-
-    if (password.length < 8) {
-      return mensaje("La contraseña debe tener al menos 8 caracteres.", true);
-    }
-
-    if (curso === "Décimo EGB" && especialidad !== "General") {
-      return mensaje("Décimo EGB es de curso general.", true);
-    }
-
-    if (curso === "1.º Bachillerato" && especialidad !== "Informática") {
-      return mensaje("Primero de Bachillerato solo tiene Informática.", true);
-    }
-
-    const boton = document.getElementById("crearCuenta");
-    boton.disabled = true;
-    boton.textContent = "Creando cuenta...";
-
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            nombre_completo: nombre,
-            curso,
-            especialidad
-          }
-        }
-      });
-
-      if (error) throw error;
-
-      mensaje(
-        "Cuenta creada. Revisa tu correo para confirmar el registro antes de iniciar sesión."
-      );
-
-    } catch (error) {
-      mensaje(error.message || "No se pudo crear la cuenta.", true);
-    } finally {
-      boton.disabled = false;
-      boton.textContent = "Registrarme";
-    }
-  };
-
-  document.getElementById("entrarCuenta").onclick = async () => {
-    const email = document.getElementById("correoLogin").value.trim();
-    const password = document.getElementById("claveLogin").value;
-
-    if (!email || !password) {
-      return mensaje("Escribe tu correo y contraseña.", true);
-    }
-
-    try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-
-      if (error) throw error;
-
-      mostrarAplicacion(true);
-      mensaje("");
-      window.dispatchEvent(new Event("eudde:sesion-iniciada"));
-
-    } catch (error) {
-      mensaje(error.message || "No se pudo iniciar sesión.", true);
-    }
-  };
-
-  document.getElementById("recuperarClave").onclick = async evento => {
-    evento.preventDefault();
-
-    const email = document.getElementById("correoLogin").value.trim();
-
-    if (!email) {
-      return mensaje("Escribe tu correo para recuperar la contraseña.", true);
-    }
-
-    const { error } = await supabase.auth.resetPasswordForEmail(email);
-
-    mensaje(
-      error ? error.message : "Revisa tu correo para recuperar tu contraseña.",
-      Boolean(error)
-    );
-  };
-
-  supabase.auth.getSession().then(({ data, error }) => {
-    if (!error && data.session) {
-      mostrarAplicacion(true);
-      window.dispatchEvent(new Event("eudde:sesion-iniciada"));
+      botonEntrar.disabled = true;
     } else {
-      mostrarAplicacion(false);
+      especialidadSeleccionada = especialidades[0];
+      botonEntrar.disabled = false;
     }
   });
+
+  botonEntrar.addEventListener("click", () => {
+    if (!cursoSeleccionado || !especialidadSeleccionada) return;
+
+    localStorage.setItem("eudde_curso", cursoSeleccionado);
+    localStorage.setItem(
+      "eudde_especialidad",
+      especialidadSeleccionada
+    );
+
+    mostrarCurso(cursoSeleccionado, especialidadSeleccionada);
+  });
+});
+
+function mostrarCurso(curso, especialidad) {
+  const contenedor = document.getElementById("selectoresCurso");
+
+  contenedor.innerHTML = `
+    <div class="curso-seleccionado">
+      <h2>${curso}</h2>
+      <p>Especialidad: ${especialidad}</p>
+      <p>¡Ya puedes comenzar tus clases!</p>
+      <button onclick="irAAsignaturas()">Ver mis asignaturas</button>
+    </div>
+  `;
+
+  if (typeof irAAsignaturas === "function") {
+    // La navegación se realiza con el botón.
+  }
 }
+
+function irAAsignaturas() {
+  const seccion = document.getElementById("asignaturas");
+
+  if (seccion) {
+    document.querySelectorAll("main section").forEach(elemento => {
+      elemento.style.display = "none";
+    });
+
+    seccion.style.display = "block";
+  }
+}
+
+console.log("EUDDE Campus Virtual iniciado sin registro.");
