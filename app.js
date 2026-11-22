@@ -634,3 +634,470 @@ function irAAsignaturas() {
 }
 
 console.log("EUDDE: catálogo académico cargado.");
+
+/* ==========================================
+   EUDDE - SISTEMA DE ACTIVIDADES Y EXÁMENES
+========================================== */
+
+const CONFIG_EUDDE = {
+  actividad: 15,
+  examen: 20,
+  maximos: [10, 8, 6],
+  limiteFoto: 5 * 1024 * 1024
+};
+
+let intentoEUDDE = {};
+let respuestasEUDDE = {};
+let fotoEUDDE = null;
+let evaluacionEUDDE = null;
+
+/*
+  BANCO DE PREGUNTAS
+  Cada pregunta tiene cuatro opciones y una respuesta correcta.
+  Se pueden añadir preguntas específicas para cada tema.
+*/
+
+const PREGUNTAS_EUDDE = {
+  "Matemáticas": [
+    {
+      pregunta: "¿Cuál es el resultado de 5 + 7?",
+      opciones: ["10", "11", "12", "13"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuánto es 8 × 6?",
+      opciones: ["42", "46", "48", "54"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuál es el resultado de 36 ÷ 4?",
+      opciones: ["6", "8", "9", "12"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuánto es 15 - 8?",
+      opciones: ["5", "6", "7", "8"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuál es el cuadrado de 5?",
+      opciones: ["10", "15", "20", "25"],
+      correcta: 3
+    },
+    {
+      pregunta: "Resuelve: x + 4 = 10",
+      opciones: ["4", "5", "6", "7"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuánto es 3²?",
+      opciones: ["6", "8", "9", "12"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuánto es la mitad de 80?",
+      opciones: ["20", "30", "40", "50"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuánto es 2 × (5 + 3)?",
+      opciones: ["10", "13", "16", "18"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuánto es 100 ÷ 5?",
+      opciones: ["10", "15", "20", "25"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuál es el valor de x en 2x = 14?",
+      opciones: ["5", "6", "7", "8"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuánto es 1/2 + 1/2?",
+      opciones: ["1/4", "1/2", "1", "2"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuánto es 20% de 100?",
+      opciones: ["10", "15", "20", "25"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuántos grados tiene un ángulo recto?",
+      opciones: ["45°", "60°", "90°", "180°"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Cuál es el resultado de 7 × 9?",
+      opciones: ["56", "63", "72", "81"],
+      correcta: 1
+    }
+  ],
+
+  "Física": [
+    {
+      pregunta: "¿Cuál es la unidad de distancia en el Sistema Internacional?",
+      opciones: ["Segundo", "Metro", "Kilogramo", "Newton"],
+      correcta: 1
+    },
+    {
+      pregunta: "¿Cuál es la unidad de tiempo?",
+      opciones: ["Metro", "Litro", "Segundo", "Newton"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Qué estudia la cinemática?",
+      opciones: ["El movimiento", "La temperatura", "La electricidad", "La química"],
+      correcta: 0
+    },
+    {
+      pregunta: "¿Qué significa MRU?",
+      opciones: ["Movimiento rectilíneo uniforme", "Movimiento rápido único", "Movimiento rotacional uniforme", "Movimiento relativo universal"],
+      correcta: 0
+    },
+    {
+      pregunta: "¿Cuál es la fórmula de velocidad?",
+      opciones: ["v = d/t", "v = m × a", "v = F/t", "v = d × t"],
+      correcta: 0
+    },
+    {
+      pregunta: "¿Qué instrumento mide la temperatura?",
+      opciones: ["Barómetro", "Termómetro", "Cronómetro", "Balanza"],
+      correcta: 1
+    },
+    {
+      pregunta: "¿Cuál es la unidad de fuerza?",
+      opciones: ["Joule", "Watt", "Newton", "Metro"],
+      correcta: 2
+    },
+    {
+      pregunta: "¿Qué estudia la dinámica?",
+      opciones: ["Las fuerzas y el movimiento", "Los colores", "Los sonidos únicamente", "La materia orgánica"],
+      correcta: 0
+    },
+    {
+      pregunta: "¿Qué representa la aceleración?",
+      opciones: ["Cambio de velocidad", "Distancia total", "Masa de un objeto", "Temperatura"],
+      correcta: 0
+    },
+    {
+      pregunta: "¿Qué es la gravedad?",
+      opciones: ["Una fuerza de atracción", "Una temperatura", "Una unidad de tiempo", "Una forma de energía eléctrica"],
+      correcta: 0
+    },
+    {
+      pregunta: "¿Cuál es la unidad de energía?",
+      opciones: ["Newton", "Joule", "Metro", "Segundo"],
+      correcta: 1
+    },
+    {
+      pregunta: "¿Qué mide la potencia?",
+      opciones: ["Trabajo por unidad de tiempo", "Masa por volumen", "Distancia por masa", "Temperatura por tiempo"],
+      correcta: 0
+    },
+    {
+      pregunta: "¿Qué estudia la óptica?",
+      opciones: ["La luz", "El sonido", "La masa", "La presión"],
+      correcta: 0
+    },
+    {
+      pregunta: "¿Qué estudia la acústica?",
+      opciones: ["El sonido", "La electricidad", "La gravedad", "El magnetismo"],
+      correcta: 0
+    },
+    {
+      pregunta: "¿Qué establece la ley de Ohm?",
+      opciones: ["V = I × R", "F = m × a", "d = v × t", "P = m × g"],
+      correcta: 0
+    }
+  ]
+};
+
+/* ==========================================
+   ABRIR ACTIVIDAD O EXAMEN
+========================================== */
+
+function iniciarEvaluacion(tipo, materia, tema) {
+  if (!["actividad", "examen"].includes(tipo)) return;
+
+  const cantidad = tipo === "actividad" ? 15 : 20;
+  const esPractica = ["Matemáticas", "Física"].includes(materia);
+
+  const banco = PREGUNTAS_EUDDE[materia];
+
+  if (!banco || banco.length < cantidad) {
+    alert(
+      "Esta materia todavía necesita su banco completo de preguntas específicas. No se repetirá una pregunta para completar la evaluación."
+    );
+    return;
+  }
+
+  const clave = `${materia}_${tema}_${tipo}`;
+  intentoEUDDE[clave] = (intentoEUDDE[clave] || 0) + 1;
+
+  if (intentoEUDDE[clave] > 3) {
+    alert("Ya utilizaste las tres oportunidades.");
+    return;
+  }
+
+  evaluacionEUDDE = {
+    clave,
+    tipo,
+    materia,
+    tema,
+    preguntas: banco.slice(0, cantidad),
+    esPractica
+  };
+
+  respuestasEUDDE = {};
+  fotoEUDDE = null;
+
+  mostrarEvaluacion();
+}
+
+/* ==========================================
+   DIBUJAR PREGUNTAS
+========================================== */
+
+function mostrarEvaluacion() {
+  const aula = document.getElementById("contenidoAula");
+  if (!aula || !evaluacionEUDDE) return;
+
+  const e = evaluacionEUDDE;
+
+  aula.innerHTML = `
+    <div class="evaluacion-eudde">
+      <h2>${e.tipo === "actividad" ? "Actividad" : "Examen"}</h2>
+      <h3>${e.materia} - ${e.tema}</h3>
+
+      <p>Preguntas: ${e.preguntas.length}</p>
+      <p>Oportunidad: ${intentoEUDDE[e.clave]} de 3</p>
+
+      <form id="formEvaluacionEUDDE">
+        ${e.preguntas.map((p, i) => `
+          <article class="pregunta-eudde">
+            <h4>${i + 1}. ${p.pregunta}</h4>
+
+            ${p.opciones.map((opcion, j) => `
+              <label>
+                <input
+                  type="radio"
+                  name="pregunta${i}"
+                  value="${j}"
+                  required
+                >
+                ${opcion}
+              </label>
+            `).join("")}
+          </article>
+        `).join("")}
+
+        ${e.esPractica ? `
+          <div class="evidencia-eudde">
+            <h3>Fotografía del procedimiento</h3>
+            <p>Adjunta una foto clara donde se vea cómo resolviste los ejercicios. Es obligatoria.</p>
+            <input
+              type="file"
+              id="fotoProcedimientoEUDDE"
+              accept="image/*"
+              capture="environment"
+              required
+            >
+            <p id="nombreFotoEUDDE">No has seleccionado una fotografía.</p>
+          </div>
+        ` : ""}
+
+        <button type="submit">Entregar ${e.tipo}</button>
+      </form>
+    </div>
+  `;
+
+  const selectorFoto = document.getElementById("fotoProcedimientoEUDDE");
+
+  if (selectorFoto) {
+    selectorFoto.addEventListener("change", () => {
+      fotoEUDDE = selectorFoto.files[0] || null;
+      document.getElementById("nombreFotoEUDDE").textContent =
+        fotoEUDDE ? `Foto seleccionada: ${fotoEUDDE.name}` :
+        "No has seleccionado una fotografía.";
+    });
+  }
+
+  document.getElementById("formEvaluacionEUDDE")
+    .addEventListener("submit", entregarEvaluacion);
+}
+
+/* ==========================================
+   CALIFICAR AUTOMÁTICAMENTE
+========================================== */
+
+function entregarEvaluacion(evento) {
+  evento.preventDefault();
+
+  const e = evaluacionEUDDE;
+  const formulario = evento.currentTarget;
+
+  if (e.esPractica) {
+    if (!fotoEUDDE) {
+      alert("Debes adjuntar la fotografía de tu procedimiento.");
+      return;
+    }
+
+    if (!fotoEUDDE.type.startsWith("image/") ||
+        fotoEUDDE.size > CONFIG_EUDDE.limiteFoto) {
+      alert("Selecciona una imagen válida de máximo 5 MB.");
+      return;
+    }
+  }
+
+  let correctas = 0;
+
+  e.preguntas.forEach((pregunta, indice) => {
+    const seleccion = formulario.querySelector(
+      `input[name="pregunta${indice}"]:checked`
+    );
+
+    if (seleccion && Number(seleccion.value) === pregunta.correcta) {
+      correctas++;
+    }
+  });
+
+  const intento = intentoEUDDE[e.clave];
+  const maximo = CONFIG_EUDDE.maximos[intento - 1];
+
+  const notaCalculada =
+    (correctas / e.preguntas.length) * 10;
+
+  const notaFinal = Math.min(notaCalculada, maximo);
+
+  guardarNotaLocal({
+    materia: e.materia,
+    tema: e.tema,
+    tipo: e.tipo,
+    intento,
+    correctas,
+    total: e.preguntas.length,
+    nota: Number(notaFinal.toFixed(2))
+  });
+
+  if (e.esPractica) {
+    guardarFotoTemporal(e, fotoEUDDE);
+  }
+
+  mostrarResultado(correctas, e.preguntas.length, notaFinal, intento);
+}
+
+/* ==========================================
+   NOTAS LOCALES
+========================================== */
+
+function guardarNotaLocal(nota) {
+  const notas = JSON.parse(
+    localStorage.getItem("eudde_notas") || "[]"
+  );
+
+  notas.push({
+    ...nota,
+    fecha: new Date().toISOString()
+  });
+
+  localStorage.setItem("eudde_notas", JSON.stringify(notas));
+}
+
+/* ==========================================
+   EVIDENCIA FOTOGRÁFICA
+========================================== */
+
+function guardarFotoTemporal(evaluacion, archivo) {
+  /*
+    La foto se selecciona y se conserva temporalmente
+    en esta sesión. Para guardarla permanentemente y
+    revisarla desde otro dispositivo se necesita conectar
+    un almacenamiento seguro.
+  */
+
+  window.euddeUltimaEvidencia = {
+    materia: evaluacion.materia,
+    tema: evaluacion.tema,
+    tipo: evaluacion.tipo,
+    archivo
+  };
+}
+
+/* ==========================================
+   RESULTADOS
+========================================== */
+
+function mostrarResultado(correctas, total, nota, intento) {
+  const aula = document.getElementById("contenidoAula");
+
+  aula.innerHTML = `
+    <div class="resultado-eudde">
+      <h2>Evaluación entregada</h2>
+
+      <h3>Tu calificación</h3>
+      <p>${nota.toFixed(2)} / 10</p>
+
+      <p>Respuestas correctas: ${correctas} de ${total}</p>
+      <p>Oportunidad utilizada: ${intento} de 3</p>
+
+      ${
+        intento < 3
+        ? `<p>Puedes utilizar tu siguiente oportunidad si deseas mejorar tu nota.</p>`
+        : `<p>Has completado tus tres oportunidades.</p>`
+      }
+
+      <button onclick="mostrarSeccion('notas')">
+        Ver mis calificaciones
+      </button>
+
+      <button onclick="volverCursos()">
+        Volver a los cursos
+      </button>
+    </div>
+  `;
+}
+
+/* ==========================================
+   VIDEOS EDUCATIVOS
+========================================== */
+
+function mostrarVideoEducativo(tema, url) {
+  const aula = document.getElementById("contenidoAula");
+  if (!aula) return;
+
+  let enlace;
+
+  try {
+    enlace = new URL(url);
+  } catch {
+    alert("El enlace del video no es válido.");
+    return;
+  }
+
+  const esYouTube =
+    enlace.hostname === "www.youtube.com" ||
+    enlace.hostname === "youtube.com" ||
+    enlace.hostname === "youtu.be";
+
+  if (!esYouTube) {
+    alert("Utiliza un enlace de YouTube.");
+    return;
+  }
+
+  aula.innerHTML = `
+    <h2>Video educativo: ${tema}</h2>
+    <p>Recurso audiovisual de aprendizaje.</p>
+    <a href="${enlace.href}" target="_blank" rel="noopener noreferrer">
+      Abrir video educativo
+    </a>
+  `;
+}
+
+/* ==========================================
+   FIN DEL SISTEMA DE EVALUACIÓN
+========================================== */
+
+console.log("EUDDE: evaluaciones interactivas cargadas.");
