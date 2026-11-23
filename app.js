@@ -496,6 +496,503 @@ function claveEvaluacion(tipo) {
   No se inventan respuestas correctas automáticamente.
 */
 
+/* =====================================================
+   EUDDE CAMPUS VIRTUAL
+   Archivo: app.js
+   ===================================================== */
+
+const CONFIG_EUDDE = {
+  preguntasActividad: 15,
+  preguntasExamen: 20,
+  maximosIntentos: [10, 8, 6],
+  maximoArchivo: 5 * 1024 * 1024
+};
+
+const CURSOS_EUDDE = {
+  "Décimo EGB": {
+    "General": {
+      "Matemáticas": [
+        "Ecuaciones de segundo grado",
+        "Teorema de Pitágoras",
+        "Funciones",
+        "Estadística",
+        "Problemas matemáticos aplicados"
+      ],
+      "Lengua y Literatura": [
+        "El ensayo", "La novela", "Ortografía",
+        "Comprensión lectora", "Producción de textos"
+      ],
+      "Ciencias Naturales": [
+        "El cuerpo humano", "Genética básica",
+        "La tabla periódica", "El medio ambiente",
+        "Ecosistemas"
+      ],
+      "Ciencias Sociales": [
+        "Historia del Ecuador", "Geografía",
+        "Democracia y ciudadanía", "Cultura ecuatoriana",
+        "Derechos y responsabilidades"
+      ],
+      "Inglés": [
+        "Present Simple", "Past Simple",
+        "There is / There are", "Can / Can't",
+        "Everyday vocabulary"
+      ],
+      "Informática": [
+        "Word", "Excel", "PowerPoint",
+        "Internet seguro", "Presentaciones"
+      ]
+    }
+  },
+
+  "1.º Bachillerato": {
+    "Informática": {
+      "Matemáticas": [
+        "Función", "Función afín", "Recta",
+        "Sistema de ecuaciones", "Vectores en el plano"
+      ],
+      "Física": [
+        "MRU", "MRUV", "MCU", "MCUV",
+        "Leyes de Newton"
+      ],
+      "Lengua": [
+        "Neoclasicismo", "Comunicación para negocios",
+        "Ensayo argumentativo", "Los eufemismos",
+        "Globalización y castellano"
+      ],
+      "Inglés": [
+        "Present Perfect", "Past Simple vs Past Continuous",
+        "Used to", "British vocabulary",
+        "Comparatives"
+      ],
+      "Emprendimiento": [
+        "Qué es emprender", "Tipos de emprendimiento",
+        "Idea de negocio", "Características del emprendedor",
+        "Necesidades y oportunidades"
+      ],
+      "Ética": [
+        "Valores y ética", "Derechos humanos",
+        "Convivencia y respeto", "Constitución del Ecuador",
+        "Ciudadanía"
+      ],
+      "Programación y Desarrollo de Software": [
+        "Lógica y algoritmos", "Variables, condicionales y bucles",
+        "Programación en Python", "Programación orientada a objetos",
+        "Resolución de problemas"
+      ],
+      "Diseño y Desarrollo Web": [
+        "HTML y CSS", "JavaScript básico",
+        "Diseño responsive", "Publicar una página web",
+        "Estructura de un sitio web"
+      ],
+      "Bases de Datos": [
+        "Modelo entidad-relación", "SQL",
+        "Llaves primarias y foráneas",
+        "Crear una base de datos real",
+        "Consultas básicas"
+      ],
+      "Sistemas Operativos": [
+        "Windows y Linux", "Instalación y configuración",
+        "Gestión de archivos y usuarios",
+        "Comandos de terminal", "Administración básica"
+      ],
+      "Redes y Conectividad": [
+        "Tipos de redes LAN, WAN y WiFi",
+        "Direcciones IP y DNS", "Modelo OSI y TCP/IP",
+        "Configuración de router", "Conectividad"
+      ],
+      "Soporte Técnico": [
+        "Partes de la computadora",
+        "Mantenimiento preventivo y correctivo",
+        "Instalación de programas y drivers",
+        "Diagnóstico de fallas", "Solución de problemas"
+      ],
+      "Aplicaciones Ofimáticas": [
+        "Word", "Excel", "PowerPoint",
+        "Google Drive y correo", "Documentos digitales"
+      ],
+      "Seguridad Informática": [
+        "Virus, malware y phishing",
+        "Contraseñas seguras y 2FA",
+        "Copias de seguridad", "Firewall y antivirus",
+        "Protección de información"
+      ],
+      "Inteligencia Artificial Aplicada": [
+        "Qué es la IA", "ChatGPT y herramientas de IA",
+        "Crear imágenes y textos con IA",
+        "Uso ético de la IA", "Aplicaciones de IA"
+      ]
+    }
+  },
+
+  "2.º Bachillerato": {
+    "Informática": {
+      "Matemáticas": [
+        "Función cuadrática", "Función exponencial y logarítmica",
+        "Trigonometría", "Estadística y probabilidad", "Progresiones"
+      ],
+      "Física": [
+        "Trabajo y energía", "Potencia",
+        "Impulso y cantidad de movimiento",
+        "Hidrostática", "Calor y temperatura"
+      ],
+      "Inglés": [
+        "Present Perfect Continuous", "First Conditional",
+        "Second Conditional", "Passive Voice", "Phrasal Verbs"
+      ],
+      "Emprendimiento": [
+        "Modelo Canvas", "Estudio de mercado",
+        "Marketing y ventas", "Costos y presupuesto", "Prototipo"
+      ],
+      "Especialidad Informática": [
+        "Programación avanzada", "Desarrollo web avanzado",
+        "Bases de Datos avanzadas", "Redes avanzadas",
+        "Proyecto técnico"
+      ]
+    },
+
+    "Ciencias": {
+      "Matemáticas": [
+        "Función cuadrática", "Función exponencial y logarítmica",
+        "Trigonometría", "Estadística y probabilidad", "Progresiones"
+      ],
+      "Física": [
+        "Trabajo y energía", "Potencia",
+        "Impulso", "Hidrostática", "Calor y temperatura"
+      ],
+      "Química": [
+        "Reacciones químicas", "Balanceo de ecuaciones",
+        "Ácidos y bases", "Tabla periódica avanzada",
+        "Estequiometría"
+      ],
+      "Biología": [
+        "Célula", "ADN y herencia", "Ecosistemas",
+        "Evolución", "Sistemas del cuerpo"
+      ],
+      "Inglés": [
+        "Present Perfect Continuous", "First Conditional",
+        "Second Conditional", "Passive Voice", "Phrasal Verbs"
+      ],
+      "Emprendimiento": [
+        "Modelo Canvas", "Estudio de mercado",
+        "Marketing", "Costos", "Prototipo"
+      ]
+    },
+
+    "Contabilidad": {
+      "Matemáticas": [
+        "Función cuadrática", "Función exponencial",
+        "Trigonometría", "Estadística", "Progresiones"
+      ],
+      "Contabilidad General": [
+        "Activo, pasivo y patrimonio", "Libro diario",
+        "Libro mayor", "Balance general", "Estado de resultados"
+      ],
+      "Inglés": [
+        "Present Perfect Continuous", "First Conditional",
+        "Second Conditional", "Passive Voice", "Phrasal Verbs"
+      ],
+      "Emprendimiento": [
+        "Modelo Canvas", "Estudio de mercado",
+        "Marketing", "Costos", "Prototipo"
+      ]
+    }
+  },
+
+  "3.º Bachillerato": {
+    "Informática": {
+      "Matemáticas": [
+        "Límites", "Derivadas", "Integrales básicas",
+        "Geometría en el espacio", "Matemática financiera"
+      ],
+      "Física": [
+        "Ondas y sonido", "Óptica",
+        "Electricidad: Ley de Ohm", "Magnetismo", "Física moderna"
+      ],
+      "Inglés": [
+        "Reported Speech", "Third Conditional",
+        "Relative Clauses", "Formal Letter",
+        "Vocabulary for work: CV e interview"
+      ],
+      "Emprendimiento": [
+        "Plan de negocios", "Finanzas y rentabilidad",
+        "Marca y publicidad", "Emprendimiento social", "Pitch"
+      ],
+      "Especialidad Informática": [
+        "Proyecto final de software",
+        "Desarrollo de app o web completa",
+        "Base de datos del proyecto",
+        "Presentación y defensa",
+        "Documentación técnica"
+      ]
+    },
+
+    "Ciencias": {
+      "Matemáticas": [
+        "Límites", "Derivadas", "Integrales",
+        "Geometría en el espacio", "Matemática financiera"
+      ],
+      "Física": [
+        "Ondas y sonido", "Óptica", "Electricidad",
+        "Magnetismo", "Física moderna"
+      ],
+      "Química": [
+        "Química orgánica", "pH", "Reacciones redox",
+        "Gases", "Soluciones"
+      ],
+      "Biología": [
+        "Genética avanzada", "Biotecnología",
+        "Salud y enfermedades", "Medio ambiente",
+        "Proyecto de investigación"
+      ],
+      "Inglés": [
+        "Reported Speech", "Third Conditional",
+        "Relative Clauses", "Formal Letter",
+        "Vocabulary for work"
+      ],
+      "Emprendimiento": [
+        "Plan de negocios", "Finanzas", "Marca",
+        "Emprendimiento social", "Pitch"
+      ]
+    },
+
+    "Contabilidad": {
+      "Matemáticas": [
+        "Límites", "Derivadas", "Integrales",
+        "Geometría en el espacio", "Matemática financiera"
+      ],
+      "Contabilidad Avanzada": [
+        "Contabilidad de costos", "Inventarios",
+        "Nómina y roles de pago", "Impuestos: IVA y Renta",
+        "Auditoría básica"
+      ],
+      "Inglés": [
+        "Reported Speech", "Third Conditional",
+        "Relative Clauses", "Formal Letter",
+        "Vocabulary for work"
+      ],
+      "Emprendimiento": [
+        "Plan de negocios", "Finanzas", "Marca",
+        "Emprendimiento social", "Pitch"
+      ]
+    }
+  }
+};
+
+/* DATOS Y ESTADO */
+
+let estadoEUDDE = {
+  curso: "",
+  especialidad: "",
+  materia: "",
+  modulo: 0,
+  notas: JSON.parse(localStorage.getItem("eudde_notas") || "[]"),
+  intentos: JSON.parse(localStorage.getItem("eudde_intentos") || "{}"),
+  completados: JSON.parse(localStorage.getItem("eudde_completados") || "[]"),
+  nombre: localStorage.getItem("eudde_nombre") || ""
+};
+
+let evaluacionActual = null;
+let fotoActual = null;
+
+const $ = id => document.getElementById(id);
+
+function guardarEstado() {
+  localStorage.setItem("eudde_notas", JSON.stringify(estadoEUDDE.notas));
+  localStorage.setItem("eudde_intentos", JSON.stringify(estadoEUDDE.intentos));
+  localStorage.setItem("eudde_completados", JSON.stringify(estadoEUDDE.completados));
+  localStorage.setItem("eudde_nombre", estadoEUDDE.nombre);
+}
+
+function mostrarContenido(html) {
+  const aula = $("contenidoAula");
+  if (aula) aula.innerHTML = html;
+  const seccion = $("aula");
+  if (seccion) seccion.scrollIntoView({ behavior: "smooth" });
+}
+
+function escaparHTML(valor) {
+  return String(valor).replace(/[&<>"']/g, caracter => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
+  })[caracter]);
+}
+
+/* INICIO Y SELECCIÓN DE CURSOS */
+
+function iniciarEUDDE() {
+  const contenedor = $("selectoresCurso");
+  if (!contenedor) {
+    console.error("No se encontró el elemento selectoresCurso.");
+    return;
+  }
+
+  contenedor.innerHTML = `
+    <h2>Bienvenido a EUDDE Campus Virtual</h2>
+    <p>Selecciona tu nivel de estudios para comenzar.</p>
+    <label>Nombre del estudiante</label>
+    <input id="nombreEstudiante" type="text"
+      value="${escaparHTML(estadoEUDDE.nombre)}"
+      placeholder="Escribe tu nombre completo">
+    <div class="cursos-eudde">
+      ${Object.keys(CURSOS_EUDDE).map(curso => `
+        <button class="boton-curso"
+          onclick="seleccionarCurso('${curso}')">
+          ${curso}
+        </button>
+      `).join("")}
+    </div>
+    <div id="opcionesEspecialidad"></div>
+  `;
+
+  actualizarPanel();
+}
+
+function seleccionarCurso(curso) {
+  estadoEUDDE.curso = curso;
+  estadoEUDDE.nombre = $("nombreEstudiante")?.value.trim() || "";
+  guardarEstado();
+
+  const especialidades = Object.keys(CURSOS_EUDDE[curso]);
+  const contenedor = $("opcionesEspecialidad");
+
+  if (especialidades.length === 1) {
+    estadoEUDDE.especialidad = especialidades[0];
+    mostrarAsignaturas();
+    return;
+  }
+
+  contenedor.innerHTML = `
+    <h3>Selecciona tu especialidad</h3>
+    <div class="especialidades-eudde">
+      ${especialidades.map(especialidad => `
+        <button onclick="seleccionarEspecialidad('${especialidad}')">
+          ${especialidad}
+        </button>
+      `).join("")}
+    </div>
+  `;
+}
+
+function seleccionarEspecialidad(especialidad) {
+  estadoEUDDE.especialidad = especialidad;
+  guardarEstado();
+  mostrarAsignaturas();
+}
+
+/* ASIGNATURAS Y MÓDULOS */
+
+function obtenerMaterias() {
+  return CURSOS_EUDDE[estadoEUDDE.curso]?.[estadoEUDDE.especialidad] || {};
+}
+
+function mostrarAsignaturas() {
+  const materias = obtenerMaterias();
+  const lista = $("listaAsignaturas");
+
+  if (lista) {
+    lista.innerHTML = Object.keys(materias).map(materia => `
+      <button class="asignatura-eudde"
+        onclick="abrirAsignatura('${materia}')">
+        ${materia}
+      </button>
+    `).join("");
+  }
+
+  const titulo = $("totalAsignaturas");
+  if (titulo) titulo.textContent = Object.keys(materias).length;
+
+  mostrarPantalla("asignaturas");
+  actualizarPanel();
+}
+
+function abrirAsignatura(materia) {
+  estadoEUDDE.materia = materia;
+  const temas = obtenerMaterias()[materia];
+
+  mostrarContenido(`
+    <h2>${escaparHTML(materia)}</h2>
+    <p>Curso: ${escaparHTML(estadoEUDDE.curso)}
+    · Especialidad: ${escaparHTML(estadoEUDDE.especialidad)}</p>
+    <h3>Selecciona uno de los cinco módulos</h3>
+    <div class="modulos-eudde">
+      ${temas.map((tema, i) => `
+        <button onclick="abrirModulo(${i})">
+          <strong>Módulo ${i + 1}</strong>
+          <span>${escaparHTML(tema)}</span>
+        </button>
+      `).join("")}
+    </div>
+    <button onclick="mostrarAsignaturas()">Volver a asignaturas</button>
+  `);
+}
+
+function abrirModulo(numero) {
+  estadoEUDDE.modulo = numero;
+  const tema = obtenerMaterias()[estadoEUDDE.materia][numero];
+  const esPractica = ["Matemáticas", "Física"].includes(estadoEUDDE.materia);
+
+  mostrarContenido(`
+    <h2>Módulo ${numero + 1}: ${escaparHTML(tema)}</h2>
+    <p><strong>Asignatura:</strong> ${escaparHTML(estadoEUDDE.materia)}</p>
+
+    <section class="contenido-modulo">
+      <h3>1. Aprendamos</h3>
+      <p>En este módulo estudiarás el tema:
+      <strong>${escaparHTML(tema)}</strong>.</p>
+      <p>Lee el contenido, identifica las ideas principales y
+      relaciona lo aprendido con ejemplos de la vida cotidiana.</p>
+
+      <h3>2. Ejemplo explicado</h3>
+      <p>${esPractica
+        ? "Resuelve ejercicios paso a paso. Identifica los datos, selecciona la fórmula, sustituye los valores y comprueba el resultado."
+        : "Identifica los conceptos principales y busca ejemplos que permitan comprender el tema."
+      }</p>
+
+      <h3>3. Video educativo</h3>
+      <p>Busca una explicación del tema en YouTube:</p>
+      <a target="_blank" rel="noopener"
+        href="https://www.youtube.com/results?search_query=${encodeURIComponent(estadoEUDDE.materia + " " + tema + " explicación educativa")}">
+        Ver videos educativos sobre ${escaparHTML(tema)}
+      </a>
+
+      <h3>4. Recuerda</h3>
+      <p>Aprender requiere práctica y constancia. ¡Sigue avanzando!</p>
+
+      <h3>5. Actividad</h3>
+      <p>Resuelve la actividad correspondiente a este módulo.</p>
+      <button onclick="iniciarEvaluacion('actividad')">
+        Comenzar actividad
+      </button>
+
+      <h3>6. Evaluación</h3>
+      <button onclick="iniciarEvaluacion('examen')">
+        Comenzar examen
+      </button>
+    </section>
+    <button onclick="abrirAsignatura('${estadoEUDDE.materia}')">
+      Volver a módulos
+    </button>
+  `);
+}
+
+/* EVALUACIONES */
+
+function claveEvaluacion(tipo) {
+  return [
+    estadoEUDDE.curso,
+    estadoEUDDE.especialidad,
+    estadoEUDDE.materia,
+    estadoEUDDE.modulo,
+    tipo
+  ].join("|");
+}
+
+/*
+  Los bancos de preguntas deben contener preguntas reales,
+  revisadas y específicas para cada tema.
+  No se inventan respuestas correctas automáticamente.
+*/
+
 const BANCO_PREGUNTAS_EUDDE = {};
 
 function registrarPreguntas(materia, tema, preguntas) {
@@ -868,3 +1365,5 @@ document.addEventListener("DOMContentLoaded", () => {
   mostrarNotas();
   mostrarCertificados();
 });
+
+
