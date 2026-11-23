@@ -1,10 +1,17 @@
 
-/* ==========================================
+/* =====================================================
    EUDDE CAMPUS VIRTUAL
-   CURSOS, ESPECIALIDADES Y MATERIAS
-========================================== */
+   Archivo: app.js
+   ===================================================== */
 
-const EUDDE = {
+const CONFIG_EUDDE = {
+  preguntasActividad: 15,
+  preguntasExamen: 20,
+  maximosIntentos: [10, 8, 6],
+  maximoArchivo: 5 * 1024 * 1024
+};
+
+const CURSOS_EUDDE = {
   "Décimo EGB": {
     "General": {
       "Matemáticas": [
@@ -12,42 +19,30 @@ const EUDDE = {
         "Teorema de Pitágoras",
         "Funciones",
         "Estadística",
-        "Geometría y resolución de problemas"
+        "Problemas matemáticos aplicados"
       ],
       "Lengua y Literatura": [
-        "El ensayo",
-        "La novela",
-        "Ortografía",
-        "Comprensión lectora",
-        "Figuras literarias"
+        "El ensayo", "La novela", "Ortografía",
+        "Comprensión lectora", "Producción de textos"
       ],
       "Ciencias Naturales": [
-        "El cuerpo humano",
-        "Genética básica",
-        "Química: tabla periódica",
-        "El medio ambiente",
+        "El cuerpo humano", "Genética básica",
+        "La tabla periódica", "El medio ambiente",
         "Ecosistemas"
       ],
       "Ciencias Sociales": [
-        "Historia del Ecuador",
-        "Geografía",
-        "Democracia y ciudadanía",
-        "Culturas del Ecuador",
+        "Historia del Ecuador", "Geografía",
+        "Democracia y ciudadanía", "Cultura ecuatoriana",
         "Derechos y responsabilidades"
       ],
       "Inglés": [
-        "Present Simple",
-        "Past Simple",
-        "There is / There are",
-        "Can / Can't",
-        "Future with going to"
+        "Present Simple", "Past Simple",
+        "There is / There are", "Can / Can't",
+        "Everyday vocabulary"
       ],
       "Informática": [
-        "Word",
-        "Excel",
-        "PowerPoint",
-        "Internet seguro",
-        "Presentaciones digitales"
+        "Word", "Excel", "PowerPoint",
+        "Internet seguro", "Presentaciones"
       ]
     }
   },
@@ -55,109 +50,79 @@ const EUDDE = {
   "1.º Bachillerato": {
     "Informática": {
       "Matemáticas": [
-        "Función",
-        "Función afín",
-        "Recta",
-        "Sistema de ecuaciones",
-        "Vectores en el plano"
+        "Función", "Función afín", "Recta",
+        "Sistema de ecuaciones", "Vectores en el plano"
       ],
       "Física": [
-        "MRU",
-        "MRUV",
-        "MCU",
-        "MCUV",
+        "MRU", "MRUV", "MCU", "MCUV",
         "Leyes de Newton"
       ],
       "Lengua": [
-        "Neoclasicismo",
-        "Comunicación para negocios",
-        "El ensayo argumentativo temático",
-        "Los eufemismos",
-        "Influencia de la globalización en el castellano"
+        "Neoclasicismo", "Comunicación para negocios",
+        "Ensayo argumentativo", "Los eufemismos",
+        "Globalización y castellano"
       ],
       "Inglés": [
-        "Present Perfect",
-        "Past Simple vs Past Continuous",
-        "Used to",
-        "Vocabulario británico: flat, lift, rubbish",
+        "Present Perfect", "Past Simple vs Past Continuous",
+        "Used to", "British vocabulary",
         "Comparatives"
       ],
       "Emprendimiento": [
-        "Qué es emprender",
-        "Tipos de emprendimiento",
-        "Idea de negocio",
-        "Características del emprendedor",
+        "Qué es emprender", "Tipos de emprendimiento",
+        "Idea de negocio", "Características del emprendedor",
         "Necesidades y oportunidades"
       ],
       "Ética": [
-        "Valores y ética",
-        "Derechos humanos",
-        "Convivencia y respeto",
-        "Constitución del Ecuador",
+        "Valores y ética", "Derechos humanos",
+        "Convivencia y respeto", "Constitución del Ecuador",
         "Ciudadanía"
       ],
       "Programación y Desarrollo de Software": [
-        "Lógica y algoritmos",
-        "Variables, condicionales y bucles",
-        "Programación en Python",
-        "Programación orientada a objetos",
-        "Pruebas y depuración de programas"
+        "Lógica y algoritmos", "Variables, condicionales y bucles",
+        "Programación en Python", "Programación orientada a objetos",
+        "Resolución de problemas"
       ],
       "Diseño y Desarrollo Web": [
-        "HTML y CSS",
-        "JavaScript básico",
-        "Diseño responsive",
-        "Publicar una página web",
+        "HTML y CSS", "JavaScript básico",
+        "Diseño responsive", "Publicar una página web",
         "Estructura de un sitio web"
       ],
       "Bases de Datos": [
-        "Modelo entidad-relación",
-        "SQL",
+        "Modelo entidad-relación", "SQL",
         "Llaves primarias y foráneas",
         "Crear una base de datos real",
-        "Consultas y organización de datos"
+        "Consultas básicas"
       ],
       "Sistemas Operativos": [
-        "Windows y Linux",
-        "Instalación y configuración",
+        "Windows y Linux", "Instalación y configuración",
         "Gestión de archivos y usuarios",
-        "Comandos de terminal",
-        "Mantenimiento del sistema"
+        "Comandos de terminal", "Administración básica"
       ],
       "Redes y Conectividad": [
         "Tipos de redes LAN, WAN y WiFi",
-        "Direcciones IP y DNS",
-        "Modelo OSI y TCP/IP",
-        "Configuración de router",
-        "Dispositivos de red"
+        "Direcciones IP y DNS", "Modelo OSI y TCP/IP",
+        "Configuración de router", "Conectividad"
       ],
       "Soporte Técnico": [
         "Partes de la computadora",
         "Mantenimiento preventivo y correctivo",
         "Instalación de programas y drivers",
-        "Diagnóstico de fallas",
-        "Herramientas de soporte técnico"
+        "Diagnóstico de fallas", "Solución de problemas"
       ],
       "Aplicaciones Ofimáticas": [
-        "Word",
-        "Excel",
-        "PowerPoint",
-        "Google Drive y correo",
-        "Documentos colaborativos"
+        "Word", "Excel", "PowerPoint",
+        "Google Drive y correo", "Documentos digitales"
       ],
       "Seguridad Informática": [
         "Virus, malware y phishing",
         "Contraseñas seguras y 2FA",
-        "Copias de seguridad",
-        "Firewall y antivirus",
-        "Protección de datos personales"
+        "Copias de seguridad", "Firewall y antivirus",
+        "Protección de información"
       ],
       "Inteligencia Artificial Aplicada": [
-        "Qué es la IA",
-        "ChatGPT y herramientas de IA",
+        "Qué es la IA", "ChatGPT y herramientas de IA",
         "Crear imágenes y textos con IA",
-        "Uso ético de la IA",
-        "Aplicaciones de la IA en la informática"
+        "Uso ético de la IA", "Aplicaciones de IA"
       ]
     }
   },
@@ -165,115 +130,73 @@ const EUDDE = {
   "2.º Bachillerato": {
     "Informática": {
       "Matemáticas": [
-        "Función cuadrática",
-        "Función exponencial y logarítmica",
-        "Trigonometría",
-        "Estadística y probabilidad",
-        "Progresiones"
+        "Función cuadrática", "Función exponencial y logarítmica",
+        "Trigonometría", "Estadística y probabilidad", "Progresiones"
       ],
       "Física": [
-        "Trabajo y energía",
-        "Potencia",
+        "Trabajo y energía", "Potencia",
         "Impulso y cantidad de movimiento",
-        "Hidrostática",
-        "Calor y temperatura"
+        "Hidrostática", "Calor y temperatura"
       ],
       "Inglés": [
-        "Present Perfect Continuous",
-        "First Conditional",
-        "Second Conditional",
-        "Passive Voice",
-        "Phrasal Verbs"
+        "Present Perfect Continuous", "First Conditional",
+        "Second Conditional", "Passive Voice", "Phrasal Verbs"
       ],
       "Emprendimiento": [
-        "Modelo Canvas",
-        "Estudio de mercado",
-        "Marketing y ventas",
-        "Costos y presupuesto",
-        "Prototipo"
+        "Modelo Canvas", "Estudio de mercado",
+        "Marketing y ventas", "Costos y presupuesto", "Prototipo"
       ],
       "Especialidad Informática": [
-        "Programación avanzada",
-        "Desarrollo web avanzado",
-        "Bases de Datos avanzadas",
-        "Redes avanzadas",
+        "Programación avanzada", "Desarrollo web avanzado",
+        "Bases de Datos avanzadas", "Redes avanzadas",
         "Proyecto técnico"
       ]
     },
 
     "Ciencias": {
       "Matemáticas": [
-        "Función cuadrática",
-        "Función exponencial y logarítmica",
-        "Trigonometría",
-        "Estadística y probabilidad",
-        "Progresiones"
+        "Función cuadrática", "Función exponencial y logarítmica",
+        "Trigonometría", "Estadística y probabilidad", "Progresiones"
       ],
       "Física": [
-        "Trabajo y energía",
-        "Potencia",
-        "Impulso",
-        "Hidrostática",
-        "Calor y temperatura"
+        "Trabajo y energía", "Potencia",
+        "Impulso", "Hidrostática", "Calor y temperatura"
       ],
       "Química": [
-        "Reacciones químicas",
-        "Balanceo de ecuaciones",
-        "Ácidos y bases",
-        "Tabla periódica avanzada",
+        "Reacciones químicas", "Balanceo de ecuaciones",
+        "Ácidos y bases", "Tabla periódica avanzada",
         "Estequiometría"
       ],
       "Biología": [
-        "Célula",
-        "ADN y herencia",
-        "Ecosistemas",
-        "Evolución",
-        "Sistemas del cuerpo"
+        "Célula", "ADN y herencia", "Ecosistemas",
+        "Evolución", "Sistemas del cuerpo"
       ],
       "Inglés": [
-        "Present Perfect Continuous",
-        "First Conditional",
-        "Second Conditional",
-        "Passive Voice",
-        "Phrasal Verbs"
+        "Present Perfect Continuous", "First Conditional",
+        "Second Conditional", "Passive Voice", "Phrasal Verbs"
       ],
       "Emprendimiento": [
-        "Modelo Canvas",
-        "Estudio de mercado",
-        "Marketing",
-        "Costos",
-        "Prototipo"
+        "Modelo Canvas", "Estudio de mercado",
+        "Marketing", "Costos", "Prototipo"
       ]
     },
 
     "Contabilidad": {
       "Matemáticas": [
-        "Función cuadrática",
-        "Función exponencial",
-        "Trigonometría",
-        "Estadística",
-        "Progresiones"
+        "Función cuadrática", "Función exponencial",
+        "Trigonometría", "Estadística", "Progresiones"
       ],
       "Contabilidad General": [
-        "Activo, pasivo y patrimonio",
-        "Libro diario",
-        "Libro mayor",
-        "Balance general",
-        "Estado de resultados"
+        "Activo, pasivo y patrimonio", "Libro diario",
+        "Libro mayor", "Balance general", "Estado de resultados"
       ],
       "Inglés": [
-        "Present Perfect Continuous",
-        "First Conditional",
-        "Second Conditional",
-        "Passive Voice",
-        "Phrasal Verbs"
+        "Present Perfect Continuous", "First Conditional",
+        "Second Conditional", "Passive Voice", "Phrasal Verbs"
       ],
       "Emprendimiento": [
-        "Modelo Canvas",
-        "Estudio de mercado",
-        "Marketing",
-        "Costos",
-        "Prototipo"
+        "Modelo Canvas", "Estudio de mercado",
+        "Marketing", "Costos", "Prototipo"
       ]
     }
   },
@@ -281,823 +204,667 @@ const EUDDE = {
   "3.º Bachillerato": {
     "Informática": {
       "Matemáticas": [
-        "Límites",
-        "Derivadas",
-        "Integrales básicas",
-        "Geometría en el espacio",
-        "Matemática financiera"
+        "Límites", "Derivadas", "Integrales básicas",
+        "Geometría en el espacio", "Matemática financiera"
       ],
       "Física": [
-        "Ondas y sonido",
-        "Óptica",
-        "Electricidad: Ley de Ohm",
-        "Magnetismo",
-        "Física moderna"
+        "Ondas y sonido", "Óptica",
+        "Electricidad: Ley de Ohm", "Magnetismo", "Física moderna"
       ],
       "Inglés": [
-        "Reported Speech",
-        "Third Conditional",
-        "Relative Clauses",
-        "Writing: formal letter",
+        "Reported Speech", "Third Conditional",
+        "Relative Clauses", "Formal Letter",
         "Vocabulary for work: CV e interview"
       ],
       "Emprendimiento": [
-        "Plan de negocios",
-        "Finanzas y rentabilidad",
-        "Marca y publicidad",
-        "Emprendimiento social",
-        "Pitch"
+        "Plan de negocios", "Finanzas y rentabilidad",
+        "Marca y publicidad", "Emprendimiento social", "Pitch"
       ],
       "Especialidad Informática": [
         "Proyecto final de software",
-        "Desarrollo de app / web completa",
+        "Desarrollo de app o web completa",
         "Base de datos del proyecto",
         "Presentación y defensa",
-        "Documentación del proyecto"
+        "Documentación técnica"
       ]
     },
 
     "Ciencias": {
       "Matemáticas": [
-        "Límites",
-        "Derivadas",
-        "Integrales",
-        "Geometría en el espacio",
-        "Matemática financiera"
+        "Límites", "Derivadas", "Integrales",
+        "Geometría en el espacio", "Matemática financiera"
       ],
       "Física": [
-        "Ondas y sonido",
-        "Óptica",
-        "Electricidad",
-        "Magnetismo",
-        "Física moderna"
+        "Ondas y sonido", "Óptica", "Electricidad",
+        "Magnetismo", "Física moderna"
       ],
       "Química": [
-        "Química orgánica",
-        "pH",
-        "Reacciones redox",
-        "Gases",
-        "Soluciones"
+        "Química orgánica", "pH", "Reacciones redox",
+        "Gases", "Soluciones"
       ],
       "Biología": [
-        "Genética avanzada",
-        "Biotecnología",
-        "Salud y enfermedades",
-        "Medio ambiente",
+        "Genética avanzada", "Biotecnología",
+        "Salud y enfermedades", "Medio ambiente",
         "Proyecto de investigación"
       ],
       "Inglés": [
-        "Reported Speech",
-        "Third Conditional",
-        "Relative Clauses",
-        "Writing: formal letter",
+        "Reported Speech", "Third Conditional",
+        "Relative Clauses", "Formal Letter",
         "Vocabulary for work"
       ],
       "Emprendimiento": [
-        "Plan de negocios",
-        "Finanzas",
-        "Marca",
-        "Emprendimiento social",
-        "Pitch"
+        "Plan de negocios", "Finanzas", "Marca",
+        "Emprendimiento social", "Pitch"
       ]
     },
 
     "Contabilidad": {
       "Matemáticas": [
-        "Límites",
-        "Derivadas",
-        "Integrales",
-        "Geometría en el espacio",
-        "Matemática financiera"
+        "Límites", "Derivadas", "Integrales",
+        "Geometría en el espacio", "Matemática financiera"
       ],
       "Contabilidad Avanzada": [
-        "Contabilidad de costos",
-        "Inventarios",
-        "Nómina y roles de pago",
-        "Impuestos: IVA y Renta",
+        "Contabilidad de costos", "Inventarios",
+        "Nómina y roles de pago", "Impuestos: IVA y Renta",
         "Auditoría básica"
       ],
       "Inglés": [
-        "Reported Speech",
-        "Third Conditional",
-        "Relative Clauses",
-        "Writing: formal letter",
+        "Reported Speech", "Third Conditional",
+        "Relative Clauses", "Formal Letter",
         "Vocabulary for work"
       ],
       "Emprendimiento": [
-        "Plan de negocios",
-        "Finanzas",
-        "Marca",
-        "Emprendimiento social",
-        "Pitch"
+        "Plan de negocios", "Finanzas", "Marca",
+        "Emprendimiento social", "Pitch"
       ]
     }
   }
 };
 
-/* ==========================================
-   SELECTORES Y NAVEGACIÓN
-========================================== */
+/* DATOS Y ESTADO */
 
-document.addEventListener("DOMContentLoaded", iniciarEUDDE);
+let estadoEUDDE = {
+  curso: "",
+  especialidad: "",
+  materia: "",
+  modulo: 0,
+  notas: JSON.parse(localStorage.getItem("eudde_notas") || "[]"),
+  intentos: JSON.parse(localStorage.getItem("eudde_intentos") || "{}"),
+  completados: JSON.parse(localStorage.getItem("eudde_completados") || "[]"),
+  nombre: localStorage.getItem("eudde_nombre") || ""
+};
+
+let evaluacionActual = null;
+let fotoActual = null;
+
+const $ = id => document.getElementById(id);
+
+function guardarEstado() {
+  localStorage.setItem("eudde_notas", JSON.stringify(estadoEUDDE.notas));
+  localStorage.setItem("eudde_intentos", JSON.stringify(estadoEUDDE.intentos));
+  localStorage.setItem("eudde_completados", JSON.stringify(estadoEUDDE.completados));
+  localStorage.setItem("eudde_nombre", estadoEUDDE.nombre);
+}
+
+function mostrarContenido(html) {
+  const aula = $("contenidoAula");
+  if (aula) aula.innerHTML = html;
+  const seccion = $("aula");
+  if (seccion) seccion.scrollIntoView({ behavior: "smooth" });
+}
+
+function escaparHTML(valor) {
+  return String(valor).replace(/[&<>"']/g, caracter => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;",
+    '"': "&quot;", "'": "&#39;"
+  })[caracter]);
+}
+
+/* INICIO Y SELECCIÓN DE CURSOS */
 
 function iniciarEUDDE() {
-  const contenedor = document.getElementById("selectoresCurso");
-
+  const contenedor = $("selectoresCurso");
   if (!contenedor) {
-    console.error("No se encontró selectoresCurso en index.html");
+    console.error("No se encontró el elemento selectoresCurso.");
     return;
   }
 
-  const acceso = document.getElementById("accesoEUDDE");
-  if (acceso) acceso.remove();
-
   contenedor.innerHTML = `
-    <div class="selector-cursos">
-      <h2>Bienvenido a EUDDE Campus Virtual</h2>
-      <p>Selecciona tu curso y especialidad para ingresar.</p>
-
-      <label for="cursoEUDDE">Curso:</label>
-      <select id="cursoEUDDE">
-        <option value="">Selecciona tu curso</option>
-        ${Object.keys(EUDDE).map(curso =>
-          `<option value="${curso}">${curso}</option>`
-        ).join("")}
-      </select>
-
-      <div id="especialidadContenedor"></div>
-      <button id="entrarCurso" disabled>Entrar al curso</button>
+    <h2>Bienvenido a EUDDE Campus Virtual</h2>
+    <p>Selecciona tu nivel de estudios para comenzar.</p>
+    <label>Nombre del estudiante</label>
+    <input id="nombreEstudiante" type="text"
+      value="${escaparHTML(estadoEUDDE.nombre)}"
+      placeholder="Escribe tu nombre completo">
+    <div class="cursos-eudde">
+      ${Object.keys(CURSOS_EUDDE).map(curso => `
+        <button class="boton-curso"
+          onclick="seleccionarCurso('${curso}')">
+          ${curso}
+        </button>
+      `).join("")}
     </div>
+    <div id="opcionesEspecialidad"></div>
   `;
 
-  const cursoSelect = document.getElementById("cursoEUDDE");
-  const especialidadContenedor =
-    document.getElementById("especialidadContenedor");
-  const entrar = document.getElementById("entrarCurso");
-
-  cursoSelect.addEventListener("change", () => {
-    const curso = cursoSelect.value;
-    especialidadContenedor.innerHTML = "";
-    entrar.disabled = true;
-
-    if (!curso) return;
-
-    const especialidades = Object.keys(EUDDE[curso]);
-
-    if (especialidades.length === 1) {
-      especialidadContenedor.innerHTML = `
-        <p><strong>Modalidad:</strong> General</p>
-      `;
-      entrar.dataset.especialidad = especialidades[0];
-      entrar.disabled = false;
-    } else {
-      especialidadContenedor.innerHTML = `
-        <label for="especialidadEUDDE">Especialidad:</label>
-        <select id="especialidadEUDDE">
-          <option value="">Selecciona tu especialidad</option>
-          ${especialidades.map(item =>
-            `<option value="${item}">${item}</option>`
-          ).join("")}
-        </select>
-      `;
-
-      const especialidadSelect =
-        document.getElementById("especialidadEUDDE");
-
-      especialidadSelect.addEventListener("change", () => {
-        entrar.dataset.especialidad = especialidadSelect.value;
-        entrar.disabled = !especialidadSelect.value;
-      });
-    }
-  });
-
-  entrar.addEventListener("click", () => {
-    const curso = cursoSelect.value;
-    const especialidad = entrar.dataset.especialidad;
-
-    if (!curso || !especialidad) return;
-
-    localStorage.setItem("eudde_curso", curso);
-    localStorage.setItem("eudde_especialidad", especialidad);
-
-    mostrarAsignaturas(curso, especialidad);
-  });
+  actualizarPanel();
 }
 
-/* ==========================================
-   MOSTRAR ASIGNATURAS
-========================================== */
+function seleccionarCurso(curso) {
+  estadoEUDDE.curso = curso;
+  estadoEUDDE.nombre = $("nombreEstudiante")?.value.trim() || "";
+  guardarEstado();
 
-function mostrarAsignaturas(curso, especialidad) {
-  const selector = document.getElementById("selectoresCurso");
-  const lista = document.getElementById("listaAsignaturas");
-  const materias = EUDDE[curso][especialidad];
+  const especialidades = Object.keys(CURSOS_EUDDE[curso]);
+  const contenedor = $("opcionesEspecialidad");
 
-  selector.innerHTML = `
-    <h2>${curso}</h2>
-    <p>Especialidad: ${especialidad}</p>
-    <button onclick="volverCursos()">Cambiar curso</button>
+  if (especialidades.length === 1) {
+    estadoEUDDE.especialidad = especialidades[0];
+    mostrarAsignaturas();
+    return;
+  }
+
+  contenedor.innerHTML = `
+    <h3>Selecciona tu especialidad</h3>
+    <div class="especialidades-eudde">
+      ${especialidades.map(especialidad => `
+        <button onclick="seleccionarEspecialidad('${especialidad}')">
+          ${especialidad}
+        </button>
+      `).join("")}
+    </div>
   `;
+}
+
+function seleccionarEspecialidad(especialidad) {
+  estadoEUDDE.especialidad = especialidad;
+  guardarEstado();
+  mostrarAsignaturas();
+}
+
+/* ASIGNATURAS Y MÓDULOS */
+
+function obtenerMaterias() {
+  return CURSOS_EUDDE[estadoEUDDE.curso]?.[estadoEUDDE.especialidad] || {};
+}
+
+function mostrarAsignaturas() {
+  const materias = obtenerMaterias();
+  const lista = $("listaAsignaturas");
 
   if (lista) {
     lista.innerHTML = Object.keys(materias).map(materia => `
-      <button class="tarjeta-asignatura"
-        onclick="mostrarModulos('${materia}')">
+      <button class="asignatura-eudde"
+        onclick="abrirAsignatura('${materia}')">
         ${materia}
       </button>
     `).join("");
   }
 
-  window.materiasActuales = materias;
+  const titulo = $("totalAsignaturas");
+  if (titulo) titulo.textContent = Object.keys(materias).length;
 
-  const aula = document.getElementById("contenidoAula");
-  if (aula) {
-    aula.innerHTML = `
-      <h2>Mis asignaturas</h2>
-      <p>Selecciona una asignatura para ver sus cinco módulos.</p>
-    `;
-  }
-
-  mostrarSeccion("asignaturas");
+  mostrarPantalla("asignaturas");
+  actualizarPanel();
 }
 
-/* ==========================================
-   MOSTRAR LOS CINCO MÓDULOS
-========================================== */
+function abrirAsignatura(materia) {
+  estadoEUDDE.materia = materia;
+  const temas = obtenerMaterias()[materia];
 
-function mostrarModulos(materia) {
-  const temas = window.materiasActuales[materia];
-  const aula = document.getElementById("contenidoAula");
-
-  if (!aula) return;
-
-  aula.innerHTML = `
-    <h2>${materia}</h2>
-    <p>Esta asignatura contiene cinco módulos de aprendizaje.</p>
-
-    <div class="modulos-lista">
-      ${temas.map((tema, indice) => `
-        <article class="tarjeta-modulo">
-          <h3>Módulo ${indice + 1}</h3>
-          <p><strong>Tema:</strong> ${tema}</p>
-          <button onclick="abrirModulo('${materia}', ${indice})">
-            Entrar al módulo
-          </button>
-        </article>
+  mostrarContenido(`
+    <h2>${escaparHTML(materia)}</h2>
+    <p>Curso: ${escaparHTML(estadoEUDDE.curso)}
+    · Especialidad: ${escaparHTML(estadoEUDDE.especialidad)}</p>
+    <h3>Selecciona uno de los cinco módulos</h3>
+    <div class="modulos-eudde">
+      ${temas.map((tema, i) => `
+        <button onclick="abrirModulo(${i})">
+          <strong>Módulo ${i + 1}</strong>
+          <span>${escaparHTML(tema)}</span>
+        </button>
       `).join("")}
     </div>
-  `;
-
-  mostrarSeccion("aula");
+    <button onclick="mostrarAsignaturas()">Volver a asignaturas</button>
+  `);
 }
 
-/* ==========================================
-   CONTENIDO DEL MÓDULO
-========================================== */
+function abrirModulo(numero) {
+  estadoEUDDE.modulo = numero;
+  const tema = obtenerMaterias()[estadoEUDDE.materia][numero];
+  const esPractica = ["Matemáticas", "Física"].includes(estadoEUDDE.materia);
 
-function abrirModulo(materia, indice) {
-  const tema = window.materiasActuales[materia][indice];
-  const aula = document.getElementById("contenidoAula");
-
-  aula.innerHTML = `
-    <h2>${materia}</h2>
-    <h3>Módulo ${indice + 1}: ${tema}</h3>
+  mostrarContenido(`
+    <h2>Módulo ${numero + 1}: ${escaparHTML(tema)}</h2>
+    <p><strong>Asignatura:</strong> ${escaparHTML(estadoEUDDE.materia)}</p>
 
     <section class="contenido-modulo">
-      <h3>1. Clase</h3>
-      <p>En esta sección encontrarás la explicación del tema
-      ${tema}, con conceptos importantes y ejemplos.</p>
+      <h3>1. Aprendamos</h3>
+      <p>En este módulo estudiarás el tema:
+      <strong>${escaparHTML(tema)}</strong>.</p>
+      <p>Lee el contenido, identifica las ideas principales y
+      relaciona lo aprendido con ejemplos de la vida cotidiana.</p>
 
       <h3>2. Ejemplo explicado</h3>
-      <p>Aquí se presentará un ejemplo desarrollado paso a paso.</p>
+      <p>${esPractica
+        ? "Resuelve ejercicios paso a paso. Identifica los datos, selecciona la fórmula, sustituye los valores y comprueba el resultado."
+        : "Identifica los conceptos principales y busca ejemplos que permitan comprender el tema."
+      }</p>
 
-      <h3>3. Recurso educativo</h3>
-      <p>En esta sección se incorporará un video o recurso
-      relacionado con el tema.</p>
+      <h3>3. Video educativo</h3>
+      <p>Busca una explicación del tema en YouTube:</p>
+      <a target="_blank" rel="noopener"
+        href="https://www.youtube.com/results?search_query=${encodeURIComponent(estadoEUDDE.materia + " " + tema + " explicación educativa")}">
+        Ver videos educativos sobre ${escaparHTML(tema)}
+      </a>
 
-      <h3>4. Mensaje motivador</h3>
-      <p>¡Cada tema que aprendes es un paso más hacia tus metas!</p>
+      <h3>4. Recuerda</h3>
+      <p>Aprender requiere práctica y constancia. ¡Sigue avanzando!</p>
 
-      <h3>5. Actividad práctica</h3>
-      <p>La actividad tendrá 15 preguntas de selección múltiple.</p>
+      <h3>5. Actividad</h3>
+      <p>Resuelve la actividad correspondiente a este módulo.</p>
+      <button onclick="iniciarEvaluacion('actividad')">
+        Comenzar actividad
+      </button>
 
       <h3>6. Evaluación</h3>
-      <p>El examen tendrá 20 preguntas de selección múltiple.</p>
-
-      ${
-        materia === "Matemáticas" || materia === "Física"
-        ? `<p><strong>Importante:</strong> En esta materia se solicitará
-        una fotografía del procedimiento realizado para las actividades
-        y los exámenes.</p>`
-        : ""
-      }
+      <button onclick="iniciarEvaluacion('examen')">
+        Comenzar examen
+      </button>
     </section>
-
-    <button onclick="mostrarModulos('${materia}')">
-      Volver a los módulos
+    <button onclick="abrirAsignatura('${estadoEUDDE.materia}')">
+      Volver a módulos
     </button>
-  `;
-
-  mostrarSeccion("aula");
+  `);
 }
 
-/* ==========================================
-   CAMBIAR SECCIONES
-========================================== */
+/* EVALUACIONES */
 
-function mostrarSeccion(id) {
-  const secciones = [
-    "inicio",
-    "asignaturas",
-    "aula",
-    "notas",
-    "examen-final",
-    "diplomas",
-    "ayuda"
-  ];
-
-  secciones.forEach(nombre => {
-    const elemento = document.getElementById(nombre);
-    if (elemento) {
-      elemento.style.display = nombre === id ? "block" : "none";
-    }
-  });
+function claveEvaluacion(tipo) {
+  return [
+    estadoEUDDE.curso,
+    estadoEUDDE.especialidad,
+    estadoEUDDE.materia,
+    estadoEUDDE.modulo,
+    tipo
+  ].join("|");
 }
-
-function volverCursos() {
-  iniciarEUDDE();
-  mostrarSeccion("asignaturas");
-}
-
-function irAAsignaturas() {
-  mostrarSeccion("asignaturas");
-}
-
-console.log("EUDDE: catálogo académico cargado.");
-
-/* ==========================================
-   EUDDE - SISTEMA DE ACTIVIDADES Y EXÁMENES
-========================================== */
-
-const CONFIG_EUDDE = {
-  actividad: 15,
-  examen: 20,
-  maximos: [10, 8, 6],
-  limiteFoto: 5 * 1024 * 1024
-};
-
-let intentoEUDDE = {};
-let respuestasEUDDE = {};
-let fotoEUDDE = null;
-let evaluacionEUDDE = null;
 
 /*
-  BANCO DE PREGUNTAS
-  Cada pregunta tiene cuatro opciones y una respuesta correcta.
-  Se pueden añadir preguntas específicas para cada tema.
+  Los bancos de preguntas deben contener preguntas reales,
+  revisadas y específicas para cada tema.
+  No se inventan respuestas correctas automáticamente.
 */
 
-const PREGUNTAS_EUDDE = {
-  "Matemáticas": [
-    {
-      pregunta: "¿Cuál es el resultado de 5 + 7?",
-      opciones: ["10", "11", "12", "13"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuánto es 8 × 6?",
-      opciones: ["42", "46", "48", "54"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuál es el resultado de 36 ÷ 4?",
-      opciones: ["6", "8", "9", "12"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuánto es 15 - 8?",
-      opciones: ["5", "6", "7", "8"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuál es el cuadrado de 5?",
-      opciones: ["10", "15", "20", "25"],
-      correcta: 3
-    },
-    {
-      pregunta: "Resuelve: x + 4 = 10",
-      opciones: ["4", "5", "6", "7"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuánto es 3²?",
-      opciones: ["6", "8", "9", "12"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuánto es la mitad de 80?",
-      opciones: ["20", "30", "40", "50"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuánto es 2 × (5 + 3)?",
-      opciones: ["10", "13", "16", "18"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuánto es 100 ÷ 5?",
-      opciones: ["10", "15", "20", "25"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuál es el valor de x en 2x = 14?",
-      opciones: ["5", "6", "7", "8"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuánto es 1/2 + 1/2?",
-      opciones: ["1/4", "1/2", "1", "2"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuánto es 20% de 100?",
-      opciones: ["10", "15", "20", "25"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuántos grados tiene un ángulo recto?",
-      opciones: ["45°", "60°", "90°", "180°"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Cuál es el resultado de 7 × 9?",
-      opciones: ["56", "63", "72", "81"],
-      correcta: 1
-    }
-  ],
+const BANCO_PREGUNTAS_EUDDE = {};
 
-  "Física": [
-    {
-      pregunta: "¿Cuál es la unidad de distancia en el Sistema Internacional?",
-      opciones: ["Segundo", "Metro", "Kilogramo", "Newton"],
-      correcta: 1
-    },
-    {
-      pregunta: "¿Cuál es la unidad de tiempo?",
-      opciones: ["Metro", "Litro", "Segundo", "Newton"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Qué estudia la cinemática?",
-      opciones: ["El movimiento", "La temperatura", "La electricidad", "La química"],
-      correcta: 0
-    },
-    {
-      pregunta: "¿Qué significa MRU?",
-      opciones: ["Movimiento rectilíneo uniforme", "Movimiento rápido único", "Movimiento rotacional uniforme", "Movimiento relativo universal"],
-      correcta: 0
-    },
-    {
-      pregunta: "¿Cuál es la fórmula de velocidad?",
-      opciones: ["v = d/t", "v = m × a", "v = F/t", "v = d × t"],
-      correcta: 0
-    },
-    {
-      pregunta: "¿Qué instrumento mide la temperatura?",
-      opciones: ["Barómetro", "Termómetro", "Cronómetro", "Balanza"],
-      correcta: 1
-    },
-    {
-      pregunta: "¿Cuál es la unidad de fuerza?",
-      opciones: ["Joule", "Watt", "Newton", "Metro"],
-      correcta: 2
-    },
-    {
-      pregunta: "¿Qué estudia la dinámica?",
-      opciones: ["Las fuerzas y el movimiento", "Los colores", "Los sonidos únicamente", "La materia orgánica"],
-      correcta: 0
-    },
-    {
-      pregunta: "¿Qué representa la aceleración?",
-      opciones: ["Cambio de velocidad", "Distancia total", "Masa de un objeto", "Temperatura"],
-      correcta: 0
-    },
-    {
-      pregunta: "¿Qué es la gravedad?",
-      opciones: ["Una fuerza de atracción", "Una temperatura", "Una unidad de tiempo", "Una forma de energía eléctrica"],
-      correcta: 0
-    },
-    {
-      pregunta: "¿Cuál es la unidad de energía?",
-      opciones: ["Newton", "Joule", "Metro", "Segundo"],
-      correcta: 1
-    },
-    {
-      pregunta: "¿Qué mide la potencia?",
-      opciones: ["Trabajo por unidad de tiempo", "Masa por volumen", "Distancia por masa", "Temperatura por tiempo"],
-      correcta: 0
-    },
-    {
-      pregunta: "¿Qué estudia la óptica?",
-      opciones: ["La luz", "El sonido", "La masa", "La presión"],
-      correcta: 0
-    },
-    {
-      pregunta: "¿Qué estudia la acústica?",
-      opciones: ["El sonido", "La electricidad", "La gravedad", "El magnetismo"],
-      correcta: 0
-    },
-    {
-      pregunta: "¿Qué establece la ley de Ohm?",
-      opciones: ["V = I × R", "F = m × a", "d = v × t", "P = m × g"],
-      correcta: 0
-    }
-  ]
-};
+function registrarPreguntas(materia, tema, preguntas) {
+  BANCO_PREGUNTAS_EUDDE[`${materia}|${tema}`] = preguntas;
+}
 
-/* ==========================================
-   ABRIR ACTIVIDAD O EXAMEN
-========================================== */
+function obtenerPreguntas() {
+  const tema = obtenerMaterias()[estadoEUDDE.materia][estadoEUDDE.modulo];
+  return BANCO_PREGUNTAS_EUDDE[
+    `${estadoEUDDE.materia}|${tema}`
+  ] || [];
+}
 
-function iniciarEvaluacion(tipo, materia, tema) {
-  if (!["actividad", "examen"].includes(tipo)) return;
+function iniciarEvaluacion(tipo) {
+  const clave = claveEvaluacion(tipo);
+  const intentos = estadoEUDDE.intentos[clave] || 0;
 
-  const cantidad = tipo === "actividad" ? 15 : 20;
-  const esPractica = ["Matemáticas", "Física"].includes(materia);
-
-  const banco = PREGUNTAS_EUDDE[materia];
-
-  if (!banco || banco.length < cantidad) {
-    alert(
-      "Esta materia todavía necesita su banco completo de preguntas específicas. No se repetirá una pregunta para completar la evaluación."
-    );
+  if (intentos >= 3) {
+    alert("Ya utilizaste las tres oportunidades permitidas.");
     return;
   }
 
-  const clave = `${materia}_${tema}_${tipo}`;
-  intentoEUDDE[clave] = (intentoEUDDE[clave] || 0) + 1;
+  const cantidad = tipo === "actividad"
+    ? CONFIG_EUDDE.preguntasActividad
+    : CONFIG_EUDDE.preguntasExamen;
 
-  if (intentoEUDDE[clave] > 3) {
-    alert("Ya utilizaste las tres oportunidades.");
+  const preguntas = obtenerPreguntas();
+
+  if (preguntas.length < cantidad) {
+    mostrarContenido(`
+      <h2>${tipo === "actividad" ? "Actividad" : "Examen"}</h2>
+      <p>El banco de preguntas de este módulo todavía no está completo.</p>
+      <p>Se necesitan ${cantidad} preguntas específicas con sus
+      cuatro opciones y respuestas correctas.</p>
+      <p>No se asignará una nota ficticia ni se calificará con preguntas
+      de otra asignatura.</p>
+      <button onclick="abrirModulo(${estadoEUDDE.modulo})">
+        Volver al módulo
+      </button>
+    `);
     return;
   }
 
-  evaluacionEUDDE = {
-    clave,
+  evaluacionActual = {
     tipo,
-    materia,
-    tema,
-    preguntas: banco.slice(0, cantidad),
-    esPractica
+    clave,
+    preguntas: preguntas.slice(0, cantidad),
+    respuestas: {}
   };
-
-  respuestasEUDDE = {};
-  fotoEUDDE = null;
 
   mostrarEvaluacion();
 }
 
-/* ==========================================
-   DIBUJAR PREGUNTAS
-========================================== */
-
 function mostrarEvaluacion() {
-  const aula = document.getElementById("contenidoAula");
-  if (!aula || !evaluacionEUDDE) return;
+  const ev = evaluacionActual;
+  const esPractica = ["Matemáticas", "Física"].includes(estadoEUDDE.materia);
 
-  const e = evaluacionEUDDE;
+  mostrarContenido(`
+    <h2>${ev.tipo === "actividad" ? "Actividad" : "Examen"}</h2>
+    <p>Pregunta todas las respuestas antes de entregar.</p>
+    <p>Intento ${ (estadoEUDDE.intentos[ev.clave] || 0) + 1 } de 3</p>
 
-  aula.innerHTML = `
-    <div class="evaluacion-eudde">
-      <h2>${e.tipo === "actividad" ? "Actividad" : "Examen"}</h2>
-      <h3>${e.materia} - ${e.tema}</h3>
+    <form id="formEvaluacion">
+      ${ev.preguntas.map((pregunta, i) => `
+        <fieldset>
+          <legend>${i + 1}. ${escaparHTML(pregunta.pregunta)}</legend>
+          ${pregunta.opciones.map((opcion, j) => `
+            <label>
+              <input type="radio" name="pregunta${i}"
+                value="${j}" required>
+              ${escaparHTML(opcion)}
+            </label><br>
+          `).join("")}
+        </fieldset>
+      `).join("")}
 
-      <p>Preguntas: ${e.preguntas.length}</p>
-      <p>Oportunidad: ${intentoEUDDE[e.clave]} de 3</p>
+      ${esPractica ? `
+        <h3>Fotografía del procedimiento</h3>
+        <p>Sube una fotografía clara de tus ejercicios y procedimientos.</p>
+        <input type="file" id="fotoProcedimiento"
+          accept="image/*" capture="environment">
+        <div id="vistaFoto"></div>
+      ` : ""}
 
-      <form id="formEvaluacionEUDDE">
-        ${e.preguntas.map((p, i) => `
-          <article class="pregunta-eudde">
-            <h4>${i + 1}. ${p.pregunta}</h4>
+      <button type="submit">Entregar evaluación</button>
+    </form>
+  `);
 
-            ${p.opciones.map((opcion, j) => `
-              <label>
-                <input
-                  type="radio"
-                  name="pregunta${i}"
-                  value="${j}"
-                  required
-                >
-                ${opcion}
-              </label>
-            `).join("")}
-          </article>
-        `).join("")}
-
-        ${e.esPractica ? `
-          <div class="evidencia-eudde">
-            <h3>Fotografía del procedimiento</h3>
-            <p>Adjunta una foto clara donde se vea cómo resolviste los ejercicios. Es obligatoria.</p>
-            <input
-              type="file"
-              id="fotoProcedimientoEUDDE"
-              accept="image/*"
-              capture="environment"
-              required
-            >
-            <p id="nombreFotoEUDDE">No has seleccionado una fotografía.</p>
-          </div>
-        ` : ""}
-
-        <button type="submit">Entregar ${e.tipo}</button>
-      </form>
-    </div>
-  `;
-
-  const selectorFoto = document.getElementById("fotoProcedimientoEUDDE");
-
-  if (selectorFoto) {
-    selectorFoto.addEventListener("change", () => {
-      fotoEUDDE = selectorFoto.files[0] || null;
-      document.getElementById("nombreFotoEUDDE").textContent =
-        fotoEUDDE ? `Foto seleccionada: ${fotoEUDDE.name}` :
-        "No has seleccionado una fotografía.";
-    });
+  const formulario = $("formEvaluacion");
+  if (formulario) {
+    formulario.addEventListener("submit", entregarEvaluacion);
   }
 
-  document.getElementById("formEvaluacionEUDDE")
-    .addEventListener("submit", entregarEvaluacion);
+  const foto = $("fotoProcedimiento");
+  if (foto) {
+    foto.addEventListener("change", seleccionarFoto);
+  }
 }
 
-/* ==========================================
-   CALIFICAR AUTOMÁTICAMENTE
-========================================== */
+function seleccionarFoto(evento) {
+  const archivo = evento.target.files[0];
+  if (!archivo) return;
+
+  if (!archivo.type.startsWith("image/")) {
+    alert("Selecciona una imagen válida.");
+    evento.target.value = "";
+    return;
+  }
+
+  if (archivo.size > CONFIG_EUDDE.maximoArchivo) {
+    alert("La imagen no puede superar los 5 MB.");
+    evento.target.value = "";
+    return;
+  }
+
+  fotoActual = archivo;
+  $("vistaFoto").innerHTML = `
+    <p>Fotografía seleccionada: ${escaparHTML(archivo.name)}</p>
+  `;
+}
 
 function entregarEvaluacion(evento) {
   evento.preventDefault();
 
-  const e = evaluacionEUDDE;
-  const formulario = evento.currentTarget;
+  const ev = evaluacionActual;
+  const esPractica = ["Matemáticas", "Física"].includes(estadoEUDDE.materia);
 
-  if (e.esPractica) {
-    if (!fotoEUDDE) {
-      alert("Debes adjuntar la fotografía de tu procedimiento.");
-      return;
-    }
-
-    if (!fotoEUDDE.type.startsWith("image/") ||
-        fotoEUDDE.size > CONFIG_EUDDE.limiteFoto) {
-      alert("Selecciona una imagen válida de máximo 5 MB.");
-      return;
-    }
+  if (esPractica && !fotoActual) {
+    alert("Debes adjuntar la fotografía de tu procedimiento.");
+    return;
   }
 
+  const formulario = new FormData(evento.target);
   let correctas = 0;
 
-  e.preguntas.forEach((pregunta, indice) => {
-    const seleccion = formulario.querySelector(
-      `input[name="pregunta${indice}"]:checked`
-    );
-
-    if (seleccion && Number(seleccion.value) === pregunta.correcta) {
-      correctas++;
-    }
+  ev.preguntas.forEach((pregunta, i) => {
+    const respuesta = Number(formulario.get(`pregunta${i}`));
+    if (respuesta === pregunta.correcta) correctas++;
   });
 
-  const intento = intentoEUDDE[e.clave];
-  const maximo = CONFIG_EUDDE.maximos[intento - 1];
+  const porcentaje = correctas / ev.preguntas.length * 10;
+  const intento = (estadoEUDDE.intentos[ev.clave] || 0) + 1;
+  const limite = CONFIG_EUDDE.maximosIntentos[intento - 1];
+  const nota = Math.min(porcentaje, limite);
 
-  const notaCalculada =
-    (correctas / e.preguntas.length) * 10;
+  estadoEUDDE.intentos[ev.clave] = intento;
 
-  const notaFinal = Math.min(notaCalculada, maximo);
+  const anterior = estadoEUDDE.notas.find(n => n.clave === ev.clave);
+  const mejorNota = anterior
+    ? Math.max(anterior.nota, nota)
+    : nota;
 
-  guardarNotaLocal({
-    materia: e.materia,
-    tema: e.tema,
-    tipo: e.tipo,
+  const registro = {
+    clave: ev.clave,
+    curso: estadoEUDDE.curso,
+    especialidad: estadoEUDDE.especialidad,
+    materia: estadoEUDDE.materia,
+    tema: obtenerMaterias()[estadoEUDDE.materia][estadoEUDDE.modulo],
+    tipo: ev.tipo,
     intento,
     correctas,
-    total: e.preguntas.length,
-    nota: Number(notaFinal.toFixed(2))
-  });
+    total: ev.preguntas.length,
+    nota: mejorNota,
+    fecha: new Date().toLocaleDateString("es-EC")
+  };
 
-  if (e.esPractica) {
-    guardarFotoTemporal(e, fotoEUDDE);
+  if (anterior) {
+    Object.assign(anterior, registro);
+  } else {
+    estadoEUDDE.notas.push(registro);
   }
 
-  mostrarResultado(correctas, e.preguntas.length, notaFinal, intento);
+  guardarEstado();
+
+  if (nota >= 7) {
+    const id = [
+      estadoEUDDE.curso,
+      estadoEUDDE.especialidad,
+      estadoEUDDE.materia,
+      estadoEUDDE.modulo
+    ].join("|");
+
+    if (!estadoEUDDE.completados.includes(id)) {
+      estadoEUDDE.completados.push(id);
+    }
+  }
+
+  fotoActual = null;
+  evaluacionActual = null;
+  guardarEstado();
+  actualizarPanel();
+
+  mostrarContenido(`
+    <h2>Resultado de la evaluación</h2>
+    <p>Respuestas correctas: ${correctas} de ${ev.preguntas.length}</p>
+    <h3>Nota obtenida: ${nota.toFixed(2)} / 10</h3>
+    <p>Mejor nota registrada: ${mejorNota.toFixed(2)} / 10</p>
+    <p>Intento: ${intento} de 3</p>
+    <p>${intento < 3
+      ? "Puedes volver a intentarlo si deseas mejorar tu calificación."
+      : "Has utilizado tus tres oportunidades."
+    }</p>
+    <button onclick="abrirAsignatura('${estadoEUDDE.materia}')">
+      Regresar a la asignatura
+    </button>
+  `);
 }
 
-/* ==========================================
-   NOTAS LOCALES
-========================================== */
+/* NOTAS Y PROGRESO */
 
-function guardarNotaLocal(nota) {
-  const notas = JSON.parse(
-    localStorage.getItem("eudde_notas") || "[]"
+function actualizarPanel() {
+  const materias = Object.keys(obtenerMaterias());
+  const totalModulos = materias.reduce(
+    (total, materia) => total + obtenerMaterias()[materia].length, 0
   );
 
-  notas.push({
-    ...nota,
-    fecha: new Date().toISOString()
+  if ($("totalModulos")) $("totalModulos").textContent = totalModulos;
+  if ($("modulosCompletados")) {
+    $("modulosCompletados").textContent = estadoEUDDE.completados.length;
+  }
+  if ($("promedioGeneral")) {
+    $("promedioGeneral").textContent = calcularPromedio().toFixed(2);
+  }
+}
+
+function calcularPromedio() {
+  if (!estadoEUDDE.notas.length) return 0;
+  const suma = estadoEUDDE.notas.reduce((total, n) => total + n.nota, 0);
+  return suma / estadoEUDDE.notas.length;
+}
+
+function mostrarNotas() {
+  const tabla = $("tablaNotas");
+  if (!tabla) return;
+
+  if (!estadoEUDDE.notas.length) {
+    tabla.innerHTML = "<p>Aún no tienes calificaciones registradas.</p>";
+    return;
+  }
+
+  tabla.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Asignatura</th>
+          <th>Tema</th>
+          <th>Evaluación</th>
+          <th>Intento</th>
+          <th>Nota</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${estadoEUDDE.notas.map(n => `
+          <tr>
+            <td>${escaparHTML(n.materia)}</td>
+            <td>${escaparHTML(n.tema)}</td>
+            <td>${escaparHTML(n.tipo)}</td>
+            <td>${n.intento}/3</td>
+            <td>${n.nota.toFixed(2)}/10</td>
+          </tr>
+        `).join("")}
+      </tbody>
+    </table>
+  `;
+}
+
+/* CERTIFICADOS IMPRIMIBLES */
+
+function mostrarCertificados() {
+  const contenedor = $("listaDiplomas");
+  if (!contenedor) return;
+
+  const aprobadas = estadoEUDDE.completados;
+
+  contenedor.innerHTML = `
+    <h2>Mis certificados</h2>
+    <p>Los certificados se habilitan cuando se cumplen
+    las condiciones académicas correspondientes.</p>
+    ${aprobadas.length ? aprobadas.map(id => {
+      const partes = id.split("|");
+      return `
+        <div class="certificado-item">
+          <p>${escaparHTML(partes[2])} - Módulo ${Number(partes[3]) + 1}</p>
+          <button onclick="imprimirCertificado('${id}')">
+            Imprimir certificado
+          </button>
+        </div>
+      `;
+    }).join("") : "<p>Todavía no tienes módulos aprobados.</p>"}
+  `;
+}
+
+function imprimirCertificado(id) {
+  const partes = id.split("|");
+  const nombre = estadoEUDDE.nombre || "Estudiante";
+  const ventana = window.open("", "_blank");
+
+  if (!ventana) {
+    alert("Permite las ventanas emergentes para imprimir.");
+    return;
+  }
+
+  ventana.document.write(`
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+      <meta charset="UTF-8">
+      <title>Certificado EUDDE</title>
+      <style>
+        body { font-family: Arial; text-align: center; padding: 50px; }
+        .marco { border: 8px double #2588bd; padding: 45px; }
+        h1 { color: #2588bd; }
+        p { font-size: 18px; }
+      </style>
+    </head>
+    <body>
+      <div class="marco">
+        <h1>EUDDE CAMPUS VIRTUAL</h1>
+        <h2>Certificado de aprobación</h2>
+        <p>Se certifica que</p>
+        <h2>${escaparHTML(nombre)}</h2>
+        <p>Ha completado satisfactoriamente:</p>
+        <h3>${escaparHTML(partes[2])}</h3>
+        <p>${escaparHTML(partes[0])} - ${escaparHTML(partes[1])}</p>
+        <p>Módulo ${Number(partes[3]) + 1}</p>
+        <p>Fecha: ${new Date().toLocaleDateString("es-EC")}</p>
+        <br><br>
+        <p>____________________________</p>
+        <p>Firma institucional</p>
+      </div>
+      <script>window.onload = () => window.print();<\/script>
+    </body>
+    </html>
+  `);
+  ventana.document.close();
+}
+
+/* NAVEGACIÓN */
+
+function mostrarPantalla(id) {
+  document.querySelectorAll("main section, .seccion").forEach(seccion => {
+    seccion.style.display = "none";
   });
 
-  localStorage.setItem("eudde_notas", JSON.stringify(notas));
+  const destino = $(id);
+  if (destino) destino.style.display = "block";
 }
 
-/* ==========================================
-   EVIDENCIA FOTOGRÁFICA
-========================================== */
-
-function guardarFotoTemporal(evaluacion, archivo) {
-  /*
-    La foto se selecciona y se conserva temporalmente
-    en esta sesión. Para guardarla permanentemente y
-    revisarla desde otro dispositivo se necesita conectar
-    un almacenamiento seguro.
-  */
-
-  window.euddeUltimaEvidencia = {
-    materia: evaluacion.materia,
-    tema: evaluacion.tema,
-    tipo: evaluacion.tipo,
-    archivo
-  };
+function volverCursos() {
+  iniciarEUDDE();
+  mostrarPantalla("inicio");
 }
 
-/* ==========================================
-   RESULTADOS
-========================================== */
-
-function mostrarResultado(correctas, total, nota, intento) {
-  const aula = document.getElementById("contenidoAula");
-
-  aula.innerHTML = `
-    <div class="resultado-eudde">
-      <h2>Evaluación entregada</h2>
-
-      <h3>Tu calificación</h3>
-      <p>${nota.toFixed(2)} / 10</p>
-
-      <p>Respuestas correctas: ${correctas} de ${total}</p>
-      <p>Oportunidad utilizada: ${intento} de 3</p>
-
-      ${
-        intento < 3
-        ? `<p>Puedes utilizar tu siguiente oportunidad si deseas mejorar tu nota.</p>`
-        : `<p>Has completado tus tres oportunidades.</p>`
-      }
-
-      <button onclick="mostrarSeccion('notas')">
-        Ver mis calificaciones
-      </button>
-
-      <button onclick="volverCursos()">
-        Volver a los cursos
-      </button>
-    </div>
-  `;
+function irAAsignaturas() {
+  mostrarAsignaturas();
 }
 
-/* ==========================================
-   VIDEOS EDUCATIVOS
-========================================== */
-
-function mostrarVideoEducativo(tema, url) {
-  const aula = document.getElementById("contenidoAula");
-  if (!aula) return;
-
-  let enlace;
-
-  try {
-    enlace = new URL(url);
-  } catch {
-    alert("El enlace del video no es válido.");
-    return;
-  }
-
-  const esYouTube =
-    enlace.hostname === "www.youtube.com" ||
-    enlace.hostname === "youtube.com" ||
-    enlace.hostname === "youtu.be";
-
-  if (!esYouTube) {
-    alert("Utiliza un enlace de YouTube.");
-    return;
-  }
-
-  aula.innerHTML = `
-    <h2>Video educativo: ${tema}</h2>
-    <p>Recurso audiovisual de aprendizaje.</p>
-    <a href="${enlace.href}" target="_blank" rel="noopener noreferrer">
-      Abrir video educativo
-    </a>
-  `;
+function mostrarSeccion(id) {
+  mostrarPantalla(id);
+  if (id === "notas") mostrarNotas();
+  if (id === "diplomas") mostrarCertificados();
+  if (id === "inicio") actualizarPanel();
 }
 
-/* ==========================================
-   FIN DEL SISTEMA DE EVALUACIÓN
-========================================== */
+/* INICIALIZACIÓN */
 
-console.log("EUDDE: evaluaciones interactivas cargadas.");
+document.addEventListener("DOMContentLoaded", () => {
+  iniciarEUDDE();
+  mostrarPantalla("inicio");
+  mostrarNotas();
+  mostrarCertificados();
+});
